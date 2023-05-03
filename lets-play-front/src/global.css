@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .font-outline-1 {
+    -webkit-text-stroke: 0.60px #EE00BA;
+  }
+  .font-outline-title {
+    -webkit-text-stroke: 1px #A936B1;
+  }
+  .font-outline-4 {
+    -webkit-text-stroke: 4px #EE00BA;
+  }
+}
