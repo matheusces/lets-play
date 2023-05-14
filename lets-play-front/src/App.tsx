@@ -1,6 +1,7 @@
 import Panel from './components/Panel';
 import Sidebar from './components/Sidebar';
 import Logo from './components/Logo';
+import CreateMatchForm from './components/CreateMatchForm';
 
 function App() {
 
