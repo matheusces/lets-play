@@ -6,14 +6,23 @@ import friendListIcon from '../assets/friend-list-button.svg';
 import onlineIcon from '../assets/online-icon.svg';
 import offlineIcon from '../assets/offline-icon.svg';
 import rightArrowPurple from '../assets/right-arrow-purple.svg';
+import { useState } from 'react';
+import LoginForm from './LoginForm';
+import Overlay from './Overlay';
 
 function Sidebar() {
+  const [isLoginFormActive, setIsLoginFormActive] = useState(false);
+
+  function toggleLoginForm() {
+    setIsLoginFormActive(!isLoginFormActive);
+  }
+
   return (
     <div className="w-[297px] h-screen bg-[#0B0B0B] flex flex-col p-1 items-center justify-evenly">
       <div className="flex flex-col">
-        <span className='w-28 h-28 rounded-full bg-bdr-purple flex items-center justify-center p-0.5'>
+        <button className='w-28 h-28 rounded-full bg-bdr-purple flex items-center justify-center p-0.5' onClick={toggleLoginForm}>
           <img className='hover:drop-shadow-img' src={PerfilPhoto} alt="foto de perfil" />
-        </span>
+        </button>
         <div className="flex items-center justify-evenly mt-3">
           <button>
             <img className='hover:drop-shadow-secondary' src={notificationBell} alt="notification bell icon" title='notifications' />
@@ -23,6 +32,13 @@ function Sidebar() {
           </button>
         </div>
       </div>
+
+      {isLoginFormActive && (
+        <>
+          <LoginForm toggleLoginForm={toggleLoginForm} />
+          <Overlay onClick={toggleLoginForm} />
+        </>
+      )}
 
       <div className="w-48 h-fit">
         <span className="uppercase">grupos</span>
