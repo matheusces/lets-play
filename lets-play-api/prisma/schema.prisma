@@ -15,7 +15,7 @@ model User {
   nickname          String
   email             String              @unique
   password          String
-  photo             String
+  photo             String?
   GroupParticipants GroupParticipants[]
   MatchParticipants MatchParticipants[]
   TeamParticipants  TeamParticipants[]
