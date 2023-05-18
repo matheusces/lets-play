@@ -3,10 +3,6 @@ import onlineIcon from '../assets/online-icon.svg';
 import participantsIcon from '../assets/participants.svg';
 import Overlay from './Overlay';
 
-interface participantProps {
-  name: string
-}
-
 interface ParticipantsListProps {
   participants: string[],
 }
