@@ -27,6 +27,26 @@ export class UserService {
         });
     }
 
+    async login(email: string, password: string) {
+        const user = await this.prisma.user.findFirst({ where: { email } });
+
+        if (!user) {
+            return {
+                type: "error",
+                message: "Wrong email or password",
+            }
+        }
+
+        bcrypt.compare(password, user.password).then(() => {
+            return user;
+        }).catch(() => {
+            return {
+                type: "error",
+                message: "Wrong email or password",
+            }
+        })
+    }
+
     async get(id: string) {
         return await this.prisma.user.findUnique({
             where: { id }

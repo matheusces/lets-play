@@ -13,8 +13,9 @@ datasource db {
 model User {
   id                String              @id
   nickname          String
-  email             String
+  email             String              @unique
   password          String
+  photo             String
   GroupParticipants GroupParticipants[]
   MatchParticipants MatchParticipants[]
   TeamParticipants  TeamParticipants[]

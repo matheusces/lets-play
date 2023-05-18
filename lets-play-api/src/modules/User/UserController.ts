@@ -18,6 +18,14 @@ class UserController {
         return response.json(resp).status(201);
     }
 
+    async login(request: Request, response: Response) {
+        const { email, password } = request.body;
+
+        const resp = await this.userService.login(email, password);
+
+        return response.json(resp).status(200);
+    }
+
     async get(request: Request, response: Response) {
         const { id } = request.params;
         const resp = await this.userService.get(id);
