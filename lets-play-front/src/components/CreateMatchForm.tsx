@@ -157,8 +157,8 @@ function CreateMatchForm({ toggleCreateMatchForm }: CreateMatchFormProps) {
         </div>
 
         <div className='flex gap-20 mt-8'>
-          <button type='submit' className='bg-primary text-white p-2 rounded-lg'>Confirmar</button>
-          <button type='button' className='bg-white text-primary p-2 rounded-lg' onClick={() => toggleCreateMatchForm(false)}>Cancelar</button>
+          <button type='submit' className='bg-primary text-white p-2 rounded-lg hover:drop-shadow-secondary'>Confirmar</button>
+          <button type='button' className='bg-white text-primary p-2 rounded-lg hover:drop-shadow-secondary' onClick={() => toggleCreateMatchForm(false)}>Cancelar</button>
         </div>
       </form>
     </>

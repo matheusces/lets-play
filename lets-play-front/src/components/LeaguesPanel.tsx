@@ -1,4 +1,7 @@
-import trophyIcon from "../assets/trophy.svg";
+import trophyIcon from "../assets/trophy_grad.svg";
+import trophyIcon2 from "../assets/trophy_silver.svg";
+import trophyIcon3 from "../assets/trophy_gold.svg";
+
 import matchIcon from '../assets/match.png';
 import participantsIcon from '../assets/participants.svg';
 

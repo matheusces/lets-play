@@ -7,6 +7,7 @@ import rightArrowBlue from '../assets/right-arrow-blue.svg';
 import offlineIcon from '../assets/offline-icon.svg';
 import addIcon from '../assets/add.svg';
 import wasteBinIcon from '../assets/waste-bin.svg';
+import noImage from '../assets/block.svg';
 
 interface GameProps {
   "id": number,
@@ -22,14 +23,12 @@ interface participantProps {
   team: string;
 }
 
-interface teamsProps {
-  team: string;
-  participants: string[];
+interface createTournamentFormProps {
+  toggleCreateTournamentForm: () => void;
 }
 
-// const users = ["Matheus", "Kelvyn", "Marcos", "Luiggie"];
 
-function CreateTournamentForm() {
+function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFormProps) {
   const [games, setGames] = useState([]);
   const [selectedGame, setSelectedGame] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
@@ -37,7 +36,6 @@ function CreateTournamentForm() {
   const [participant, setParticipant] = useState<participantProps>({name : '', team: 'Time 1'});
   const [participants, setParticipants] = useState<participantProps[]>([]);
   const [tournamentSize, setTournamentSize] = useState(2);
-  // const [teams, setTeams] = useState([]);
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const [isParticipantsManagerActive, setIsParticipantsManagerActive] = useState(false);
 
@@ -71,6 +69,18 @@ function CreateTournamentForm() {
     return groupedParticipants;
   }
 
+  function clearForm() {
+    setSelectedGame('');
+    setSelectedImage(undefined);
+    setTitle('');
+    setParticipant({
+      name: '',
+      team: 'Time 1'
+    });
+    setParticipants([]);
+    setTournamentSize(2);
+  }
+
   function handleSubmitForm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -84,6 +94,8 @@ function CreateTournamentForm() {
     }
 
     console.log(formData);
+
+    clearForm();
   }
 
   function handleGameChange(e: ChangeEvent<HTMLInputElement>) {
@@ -130,6 +142,10 @@ function CreateTournamentForm() {
     }
   }
 
+  function handleToggleCreateTournamentForm() {
+    toggleCreateTournamentForm();
+  }
+
   useEffect(() => {
     const fetchGames = async () => {
       try {
@@ -152,7 +168,7 @@ function CreateTournamentForm() {
   return (
     <form onKeyDown={handleKeyForm} onSubmit={handleSubmitForm} className='w-[42rem] h-[35rem] bg-form absolute z-10 left-1/4 z-1 flex flex-col gap-4 text-secondary items-center text-3xl px-12 py-10'>
       <button type='button' onClick={handleToggleDropdown} className='w-[35rem] h-28 flex justify-between items-center bg-input text-white text-center rounded-lg font-outline-1 border focus-within:border-secondary'>
-        <img src={selectedImage} className='w-28 h-28 bg-img border border-secondary rounded-lg'/>
+        <img src={selectedImage === undefined ? noImage : selectedImage} className='w-28 h-28 bg-img border border-secondary rounded-lg'/>
         <input className='w-96 text-center p-2 bg-input text-ellipsis focus:outline-0' placeholder='Selecione o jogo' onChange={handleGameChange} value={selectedGame} />
         <img className='right-10' src={rightArrowBlue} alt="" />
       </button>
@@ -193,7 +209,7 @@ function CreateTournamentForm() {
 
           <div className='w-fit flex flex-col gap-2 px-4'>
             <button className='w-36 h-14 bg-primary p-2 text-base text-white rounded-lg hover:drop-shadow-secondary' type='submit'>Confirmar</button>
-            <button className='w-36 h-14 bg-white p-2 text-base text-primary rounded-lg hover:drop-shadow-secondary'>Cancelar</button>
+            <button className='w-36 h-14 bg-white p-2 text-base text-primary rounded-lg hover:drop-shadow-secondary' type='button' onClick={handleToggleCreateTournamentForm}>Cancelar</button>
           </div>
         </div>
 
