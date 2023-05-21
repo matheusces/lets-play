@@ -18,7 +18,7 @@ function Sidebar() {
   const [isFriendManagerActive, setIsFriendManagerActive] = useState(false);
 
   const [groups, setGroups] = useState<string[]>([]);
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState<string[]>([]);
 
   function toggleLoginForm() {
     setIsLoginFormActive(!isLoginFormActive);
@@ -116,7 +116,7 @@ function Sidebar() {
 
       {isFriendManagerActive && (
         <>
-          <FriendManager />
+          <FriendManager friends={friends} setFriends={setFriends} toggleFriendManager={toggleFriendManager} />
           <Overlay onClick={toggleFriendManager} />
         </>
       )}
