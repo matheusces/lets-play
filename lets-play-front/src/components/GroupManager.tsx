@@ -133,7 +133,7 @@ function GroupManager({ groups, setGroups, toggleGroupManager }: GroupManagerPro
                         {group}
                       </span>
                       <button onClick={() => handleRemoveGroup(group)}>
-                        <img className='w-6 h-6 hover:drop-shadow-secondary' src={wasteBin} alt="" />
+                        <img className='w-6 h-6 hover:drop-shadow-secondary' src={wasteBin} alt="Delete Group" title='Deletar grupo' />
                       </button>
                     </li>
                   ))}
