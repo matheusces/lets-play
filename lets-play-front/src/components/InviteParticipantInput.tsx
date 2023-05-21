@@ -31,7 +31,7 @@ function InviteParticipantInput({ participants, setParticipants }: InvitePartici
 
   return (
     <>
-      <button type='button' onClick={toggleInviteInput} title='Convidar um usuário'>
+      <button type='button' className='hover:drop-shadow-secondary' onClick={toggleInviteInput} title='Convidar um usuário'>
         <img className='w-12 h-12' src={invite} alt="person with a plus icon" />
       </button>
 
@@ -41,8 +41,8 @@ function InviteParticipantInput({ participants, setParticipants }: InvitePartici
             <label htmlFor="">Nome do usuário</label>
             <input className="bg-input rounded-lg p-2" type="text" value={newParticipant} onChange={handleNewParticipantChange} />
             <div className='flex gap-2'>
-              <button className='bg-primary text-white rounded-lg p-1 text-lg' type='button' onClick={handleAddParticipant}>Adicionar</button>
-              <button className='bg-white text-primary rounded-lg p-1 text-lg' type='button' onClick={clearInput}>cancelar</button>
+              <button className='bg-primary text-white rounded-lg p-1 text-lg hover:drop-shadow-secondary' type='button' onClick={handleAddParticipant}>Adicionar</button>
+              <button className='bg-white text-primary rounded-lg p-1 text-lg hover:drop-shadow-secondary' type='button' onClick={clearInput}>cancelar</button>
             </div>
           </div>
           <Overlay onClick={toggleInviteInput} />

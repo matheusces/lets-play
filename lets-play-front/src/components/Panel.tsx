@@ -65,7 +65,7 @@ function Panel() {
         )}
         {isCreateTournamentFormActive && (
           <>
-            <CreateTournamentForm />
+            <CreateTournamentForm toggleCreateTournamentForm={toggleCreateTournamentForm} />
             <Overlay onClick={toggleCreateTournamentForm} />
           </>
         )}
