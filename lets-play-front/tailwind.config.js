@@ -32,9 +32,15 @@ export default {
         'img': '0 2px 20px #EE00BA',
         'primary': '0 1.5px 6px #EE00BA',
         'secondary': '0 1.5px 5px #00FFFF',
+        'tertiary': '0 1.5px 5px #CEEF00',
       },
       listStyleImage: {
         arrow: "url('./assets/right-arrow-purple.svg')"
+      },
+      backgroundImage: {
+        galaxy: "url('./src/assets/stars.svg')",
+        'nlw-gradient': 'linear-gradient(89.86deg, #9572FC 27.08%, #43E7AD 33.94%, #E1D55D 40.57%)',
+        'game-gradient': 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 67.08%)'
       }
     },
   },
