@@ -8,11 +8,9 @@ interface DayProps {
 function Day({ day }: DayProps) {
   const { isDaySelected, setIsDaySelected } = useContext(DayContext);
   const { selectedDay, setSelectedDay } = useContext(DayContext);
-  const [isSelectedDay, setIsSelectedDay] = useState(false);
 
 
   function handleDaySelection() {
-    // setIsSelectedDay(!isSelectedDay);
     setSelectedDay(day);
     setIsDaySelected(true);
   }

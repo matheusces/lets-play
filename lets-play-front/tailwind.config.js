@@ -8,6 +8,7 @@ export default {
         'overlay': 'rgba(0, 0, 0, 0.5)',
         'primary': '#C600B2',
         'secondary': '#00DEEC',
+        'tertiary': '#CEEF00',
         'bdr-purple': '#EE00BA',
         'blue-primary': 'rgba(4, 0, 49, 0.7)',
         'green-primary': 'rgba(0, 34, 42, 0.7)',
