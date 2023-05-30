@@ -22,7 +22,8 @@ function InviteParticipantInput({ participants, setParticipants }: InvitePartici
 
 
   function handleAddParticipant() {
-    setParticipants([...participants, newParticipant])
+    setParticipants([...participants, newParticipant]);
+    setNewParticipant('');
   }
 
   function handleNewParticipantChange(e: ChangeEvent<HTMLInputElement>){

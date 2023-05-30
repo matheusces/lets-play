@@ -105,9 +105,15 @@ function CreateMatchForm({ toggleCreateMatchForm }: CreateMatchFormProps) {
     fetchGames();
   }, [selectedGame]);
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLFormElement>) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  }
+
   return (
     <>
-      <form onSubmit={handleSubmitForm} className='w-[42rem] h-[35rem] bg-form absolute z-10 left-1/4 z-1 flex flex-col gap-2 text-secondary items-center text-3xl px-6 py-4'>
+      <form onKeyDown={handleKeyDown} onSubmit={handleSubmitForm} className='w-[42rem] h-[35rem] bg-form absolute z-10 left-1/4 z-1 flex flex-col gap-2 text-secondary items-center text-3xl px-6 py-4'>
         <div className='w-full flex justify-between px-6'>
           <label className='self-end'>Jogo</label>
           <div className='flex gap-5'>

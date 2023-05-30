@@ -29,17 +29,17 @@ function ParticipantsList({ participants }: ParticipantsListProps) {
             <button type='button' className="w-full flex flex-row-reverse" onClick={toggleParticipantsList} title="Fechar painel de participantes">
               <img className='w-8 hover:drop-shadow-logo hover:bg-highlight p-1 rounded-lg' src={closeIcon} alt="Close List" title='Fechar lista' />
             </button>
-            <ul className='flex p-2'>
+            <ul className='flex flex-col p-2'>
+              <li className='flex gap-1 hover:drop-shadow-primary'>
+                <img src={onlineIcon} alt="Green Cicle icon" />
+                Eu
+              </li>
               {participants.map((participant, index) => (
                 <li key={index} className='flex gap-1 hover:drop-shadow-primary'>
                   <img src={onlineIcon} alt="Green Cicle icon" />
                   {participant}
                 </li>
               ))}
-              <li className='flex gap-1 hover:drop-shadow-primary'>
-                <img src={onlineIcon} alt="Green Cicle icon" />
-                Eu
-              </li>
             </ul>
           </div>
           <Overlay onClick={toggleParticipantsList} />
