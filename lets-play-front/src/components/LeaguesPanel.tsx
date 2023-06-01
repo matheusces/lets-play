@@ -2,7 +2,7 @@ import trophyIcon from "../assets/trophy_grad.svg";
 import trophyIcon2 from "../assets/trophy_silver.svg";
 import trophyIcon3 from "../assets/trophy_gold.svg";
 
-import matchIcon from '../assets/match.png';
+import tableIcon from '../assets/table.svg';
 import participantsIcon from '../assets/participants.svg';
 
 const leagues = ["Counter Striker", "Grand Line Adventures", "Naruto Storm 4"]
@@ -17,8 +17,8 @@ function LeaguesPanel() {
           <span>{league}</span>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
-              <img className="w-10 h-10" src={matchIcon} alt="estrutura de uma torneio" title="Tamanho do torneio" />
-              <span>8</span>
+              <img className="w-9 h-9" src={tableIcon} alt="estrutura de uma torneio" title="Tamanho do torneio" />
+              <span>3</span>
             </div>
             <div className="flex items-center gap-1">
               <img className="w-10 h-10" src={participantsIcon} alt="icone de participantes" title="Quantidade de participantes neste torneio" />
