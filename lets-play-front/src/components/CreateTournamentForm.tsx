@@ -8,6 +8,7 @@ import addIcon from '../assets/add.svg';
 import wasteBinIcon from '../assets/waste-bin.svg';
 import noImage from '../assets/block.svg';
 import TournamentParticipantsManager from './TournamentParticipantsManager';
+import { Tournaments } from '../utils/Tournaments';
 
 interface GameProps {
   "id": number,
@@ -83,25 +84,6 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
     setTournamentSize(2);
   }
 
-  function handleSubmitForm(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const formData = {
-      title,
-      game_img: selectedImage,
-      game: selectedGame,
-      participants,
-      tournamentSize,
-      teams: groupParticipantsByTeam(participants),
-    }
-
-    console.log(formData);
-
-    clearForm();
-
-    toggleCreateTournamentForm();
-  }
-
   function handleGameChange(e: ChangeEvent<HTMLInputElement>) {
     setSelectedGame(e.target.value);
     setIsDropdownActive(true);
@@ -147,6 +129,27 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
   }
 
   function handleToggleCreateTournamentForm() {
+    toggleCreateTournamentForm();
+  }
+
+  function handleSubmitForm(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const formData = {
+      id: Tournaments.length + 1,
+      title,
+      game_img: selectedImage,
+      game: selectedGame,
+      participants,
+      tournamentSize,
+      teams: groupParticipantsByTeam(participants),
+    }
+
+    console.log(formData);
+
+    Tournaments.push(formData);
+
+    clearForm();
     toggleCreateTournamentForm();
   }
 

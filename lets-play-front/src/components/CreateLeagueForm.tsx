@@ -7,6 +7,7 @@ import offlineIcon from '../assets/offline-icon.svg';
 import addIcon from '../assets/add.svg';
 import wasteBinIcon from '../assets/waste-bin.svg';
 import noImage from '../assets/block.svg';
+import { Leagues } from '../utils/Leagues';
 
 interface GameProps {
   "id": number,
@@ -91,9 +92,9 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
     setTitle(e.target.value);
   }
 
-  function handleChangeLeagueSize(event: ChangeEvent<HTMLInputElement>) {
-    setLeagueSize(Number(event.target.value));
-  }
+  // function handleChangeLeagueSize(event: ChangeEvent<HTMLInputElement>) {
+  //   setLeagueSize(Number(event.target.value));
+  // }
 
   function handleAddParticipant() {
     setParticipants([...participants, participant]);
@@ -115,12 +116,9 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
     setParticipants(prevParticipants => prevParticipants.filter(participant => participant.name !== user));
   }
   
-  
-
   function handleToggleCreateTournamentForm() {
     toggleCreateLeagueForm();
   }
-
 
   function handleSoloCheckChange(event: ChangeEvent<HTMLInputElement>) {
     setIsSoloChecked(event.target.checked);
@@ -162,6 +160,7 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
     event.preventDefault();
 
     const formData = {
+      id: Leagues.length + 1,
       title,
       game_img: selectedImage,
       game: selectedGame,
@@ -172,7 +171,10 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
 
     console.log(formData);
 
+    Leagues.push(formData);
+
     clearForm();
+    toggleCreateLeagueForm();
   }
 
   function handleDone() {
@@ -228,7 +230,7 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
         <img className='right-10' src={rightArrowBlue} alt="" />
       </button>
       {isDropdownActive && (
-        <div className='w-[28rem] max-h-48 overflow-scroll hide-scroll-bar absolute bg-input rounded-br-lg rounded-bl-lg top-[7rem] left-[10.5rem] border-x border-b border-secondary'>
+        <div className='w-[28rem] max-h-48 overflow-scroll hide-scroll-bar absolute bg-input rounded-br-lg rounded-bl-lg top-[11rem] left-[10.5rem] border-x border-b border-secondary'>
           <ul className='flex flex-col items-center gap-2'>
             {games.map((game: GameProps, index) => (
               <li 

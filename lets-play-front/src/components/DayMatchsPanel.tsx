@@ -1,7 +1,5 @@
 
 import { useState } from "react";
-import users from '../assets/users.svg';
-import { matchs } from "../utils/matchs";
 import MatchList from "./MatchList";
 import Match, { MatchProps } from './Match';
 

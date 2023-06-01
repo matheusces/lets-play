@@ -1,32 +1,21 @@
-import trophyIcon from "../assets/trophy_grad.svg";
-import trophyIcon2 from "../assets/trophy_silver.svg";
-import trophyIcon3 from "../assets/trophy_gold.svg";
-
-import tableIcon from '../assets/table.svg';
-import participantsIcon from '../assets/participants.svg';
-
-const leagues = ["Counter Striker", "Grand Line Adventures", "Naruto Storm 4"]
+import { useState } from "react";
+import LeaguesList from "./LeaguesList";
+import League from "./League";
 
 function LeaguesPanel() {
+  const [isLeagueSelected, setIsLeagueSelected] = useState(false);
+  const [selectedLeagueID, setSelectedLeagueID] = useState('');
+
+  function toggleIsLeagueSelected() {
+    setIsLeagueSelected(!isLeagueSelected);
+  }
 
   return (
     <div className="w-[60rem] h-[36rem] bg-panel flex flex-col items-center gap-4 p-12">
-      {leagues.map((league, index) => (
-        <button key={index} className="w-[40rem] h-16 bg-panel-item rounded-lg flex items-center justify-between p-4 text-xl text-white font-outline-1 gap-2 hover:drop-shadow-secondary">
-          <img className="w-10 h-10" src={trophyIcon} alt="Icone de um Troféu" />
-          <span>{league}</span>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              <img className="w-9 h-9" src={tableIcon} alt="estrutura de uma torneio" title="Tamanho do torneio" />
-              <span>3</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <img className="w-10 h-10" src={participantsIcon} alt="icone de participantes" title="Quantidade de participantes neste torneio" />
-              <span>6</span>
-            </div>
-          </div>
-        </button>
-      ))}
+      {isLeagueSelected 
+        ? <League leagueID={selectedLeagueID} toggleIsLeagueSelected={toggleIsLeagueSelected} />
+        : <LeaguesList toggleIsLeagueSelected={toggleIsLeagueSelected} setSelectedLeagueID={setSelectedLeagueID} />
+      }
     </div>
   )
 }

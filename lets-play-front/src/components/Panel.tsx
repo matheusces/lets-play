@@ -1,25 +1,27 @@
 import { useState, useContext, useEffect } from 'react';
+
 import Calendar from "./Calendar"
 import CreateMatchForm from "./CreateMatchForm";
 import Overlay from './Overlay';
 import LeaguesPanel from './LeaguesPanel';
 import TournamentsPanel from "./TournamentsPanel";
 import CreateTournamentForm from "./CreateTournamentForm";
-import DayContext from "../contexts/DayContext";
 import DayMatchsPanel from './DayMatchsPanel';
 import CreateLeagueForm from './CreateLeagueForm';
 
-type PanelOptions = 'calendar' | 'tournament' | 'league' | 'day';
+import PanelContext from '../contexts/PanelContext';
+
+type PanelOptions = 'calendar' | 'tournament' | 'league' | 'day' | 'group';
 
 function Panel() {
-  const panelOptions: PanelOptions[] = ['calendar', 'tournament', 'league', 'day'];
+  const panelOptions: PanelOptions[] = ['calendar', 'tournament', 'league', 'day', 'group'];
 
   const [isCreateMatchFormActive, setIsCreateMatchFormActive] = useState(false);
   const [isCreateLeagueFormActive, setIsCreateLeagueFormActive] = useState(false);
   const [isCreateTournamentFormActive, setIsCreateTournamentFormActive] = useState(false);
   const [currentPanel, setCurrentPanel] = useState<PanelOptions>(panelOptions[0]);
 
-  const { selectedDay, setSelectedDay, isDaySelected, setIsDaySelected } = useContext(DayContext);
+  const { isDaySelected, setIsDaySelected } = useContext(PanelContext);
 
   const info = {
     'calendar': {
@@ -37,6 +39,10 @@ function Panel() {
     'day': {
       title: 'Partidas do dia',
       component: <DayMatchsPanel />
+    },
+    'group': {
+      title: 'Meus grupos',
+      component: <div>Grupos</div>
     }
   }
 
@@ -60,6 +66,7 @@ function Panel() {
   function teste() {
     console.log("1");
   }
+
 
   useEffect(() => {
     if (isDaySelected) {
