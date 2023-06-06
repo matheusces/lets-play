@@ -7,21 +7,15 @@ import offlineIcon from '../assets/offline-icon.svg';
 import addIcon from '../assets/add.svg';
 import wasteBinIcon from '../assets/waste-bin.svg';
 import noImage from '../assets/block.svg';
-import { Leagues } from '../utils/Leagues';
+import { Leagues, participantProps } from '../utils/Leagues';
 
-interface GameProps {
+export interface GameProps {
   "id": number,
   "slug": string,
   "name": string,
   "background_image": string,
   "rating": number,
   "suggestions_count": number,
-}
-
-
-interface participantProps {
-  name: string;
-  team: string;
 }
 
 interface createTournamentFormProps {
@@ -116,7 +110,7 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
     setParticipants(prevParticipants => prevParticipants.filter(participant => participant.name !== user));
   }
   
-  function handleToggleCreateTournamentForm() {
+  function handleToggleCreateLeagueForm() {
     toggleCreateLeagueForm();
   }
 
@@ -218,7 +212,6 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
   useEffect(() => {
     const numberOfTeams = Object.keys(groupParticipantsByTeam(participants)).length;
     numberOfTeams === 0 || numberOfTeams === 1 ? setLeagueSize(participants.length) : setLeagueSize(numberOfTeams);
-    // setLeagueSize(participants.length);
   }, [participants, isSoloChecked]);
 
   return (
@@ -260,7 +253,7 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
 
           <div className='w-fit flex flex-col gap-2 px-4'>
             <button className='w-36 h-14 bg-primary p-2 text-base text-white rounded-lg hover:drop-shadow-secondary' type='submit'>Confirmar</button>
-            <button className='w-36 h-14 bg-white p-2 text-base text-primary rounded-lg hover:drop-shadow-secondary' type='button' onClick={handleToggleCreateTournamentForm}>Cancelar</button>
+            <button className='w-36 h-14 bg-white p-2 text-base text-primary rounded-lg hover:drop-shadow-secondary' type='button' onClick={handleToggleCreateLeagueForm}>Cancelar</button>
           </div>
         </div>
 

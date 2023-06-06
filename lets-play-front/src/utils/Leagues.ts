@@ -6,12 +6,11 @@ export interface LeagueProps {
   leagueSize: number;
   participants: participantProps[];
   teams: {
-    team: string;
-    players: string[];
+    [team: string]: string[];
   };
 }
 
-interface participantProps {
+export interface participantProps {
   name: string;
   team: string;
 }
@@ -20,7 +19,7 @@ export let Leagues = [
   {
     id: '1',
     title: 'Premier League',
-    game_img: '',
+    game_img: 'https://a.espncdn.com/photo/2021/0709/r878390_864x1296_2-3.jpg',
     game: 'Fifa 22',
     leagueSize: 4,
     participants: [
