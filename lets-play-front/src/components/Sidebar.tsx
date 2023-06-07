@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import PerfilPhoto from '../assets/PerfilPhoto.svg';
 import notificationBell from '../assets/notification-bell.svg';
 import gear from '../assets/gear.svg';
@@ -6,16 +8,20 @@ import friendListIcon from '../assets/friend-list-button.svg';
 import onlineIcon from '../assets/online-icon.svg';
 import offlineIcon from '../assets/offline-icon.svg';
 import rightArrowPurple from '../assets/right-arrow-purple.svg';
-import { useState } from 'react';
+
 import LoginForm from './LoginForm';
 import Overlay from './Overlay';
 import GroupManager from './GroupManager';
 import FriendManager from './FriendManager';
+import NotificationPanel from './Notification/NotificationPanel';
+import ConfigPanel from './Notification/ConfigPanel';
 
 function Sidebar() {
   const [isLoginFormActive, setIsLoginFormActive] = useState(false);
   const [isGroupManagerActive, setIsGroupManagerActive] = useState(false);
   const [isFriendManagerActive, setIsFriendManagerActive] = useState(false);
+  const [isNotificationPanelActive, setIsNotificationPanelActive] = useState(false);
+  const [isConfigPanelActive, setIsConfigPanelActive] = useState(false);
 
   const [groups, setGroups] = useState<string[]>([]);
   const [friends, setFriends] = useState<string[]>([]);
@@ -32,6 +38,14 @@ function Sidebar() {
     setIsFriendManagerActive(!isFriendManagerActive);
   }
 
+  function toggleNotificationPanel() {
+    setIsNotificationPanelActive(!isNotificationPanelActive);
+  }
+
+  function toggleConfigPanel() {
+    setIsConfigPanelActive(!isConfigPanelActive);
+  }
+
   return (
     <div className="w-[297px] h-screen bg-[#0B0B0B] flex flex-col p-1 items-center justify-evenly">
       <div className="flex flex-col">
@@ -39,10 +53,10 @@ function Sidebar() {
           <img className='hover:drop-shadow-img' src={PerfilPhoto} alt="foto de perfil" />
         </button>
         <div className="flex items-center justify-evenly mt-3">
-          <button>
+          <button onClick={toggleNotificationPanel}>
             <img className='hover:drop-shadow-secondary' src={notificationBell} alt="notification bell icon" title='notifications' />
           </button>
-          <button>
+          <button onClick={toggleConfigPanel}>
             <img className='hover:drop-shadow-secondary' src={gear} alt="gear icon for config button" title='configurations' />
           </button>
         </div>
@@ -52,6 +66,21 @@ function Sidebar() {
         <>
           <LoginForm toggleLoginForm={toggleLoginForm} />
           <Overlay onClick={toggleLoginForm} />
+        </>
+      )}
+
+      {isNotificationPanelActive && (
+        <>
+          <NotificationPanel togglePanel={toggleNotificationPanel} />
+          <Overlay onClick={toggleNotificationPanel} />
+        </>  
+      )}
+
+
+      {isConfigPanelActive && (
+        <>
+          <ConfigPanel toggleConfigPanel={toggleConfigPanel} />
+          <Overlay onClick={toggleConfigPanel} />
         </>
       )}
 
