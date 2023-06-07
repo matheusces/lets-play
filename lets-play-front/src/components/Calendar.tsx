@@ -4,7 +4,6 @@ import * as dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 
 const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-const days = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '28', '29', '30', '31' ]
 
 function Calendar() {
   const [selectedMonth, setSelectedMonth] = useState(months[dayjs().month()]);

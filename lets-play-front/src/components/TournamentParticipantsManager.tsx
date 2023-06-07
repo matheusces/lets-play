@@ -3,6 +3,8 @@ import { ChangeEvent, useState } from 'react';
 interface TournamentParticipantsManagerProps {
   participants: participantProps[],
   tournamentSize: number;
+  isSoloChecked: boolean;
+  setIsSoloChecked: React.Dispatch<React.SetStateAction<boolean>>;
   setParticipants: React.Dispatch<React.SetStateAction<participantProps[]>>;
   handleChangeTournamentSize: (event: ChangeEvent<HTMLSelectElement>) => void;
   handleToggleParticipantsManager: () => void;
@@ -13,8 +15,8 @@ interface participantProps {
   team: string;
 }
 
-function TournamentParticipantsManager({ participants, tournamentSize, setParticipants, handleChangeTournamentSize, handleToggleParticipantsManager }: TournamentParticipantsManagerProps) {
-  const [isSoloChecked, setIsSoloChecked] = useState(false);
+function TournamentParticipantsManager({participants, tournamentSize, setParticipants, isSoloChecked, setIsSoloChecked, handleChangeTournamentSize, handleToggleParticipantsManager }: TournamentParticipantsManagerProps) {
+  // const [isSoloChecked, setIsSoloChecked] = useState(false);
 
   function handleTournamentSizeChange(event: ChangeEvent<HTMLSelectElement>) {
     clearTeams();
@@ -72,13 +74,13 @@ function TournamentParticipantsManager({ participants, tournamentSize, setPartic
 
         <div className="flex gap-4 text-primary mb-8">
           <span>Quantidade de times</span>
-          <select className='rounded-md' name="teams" id="teams" value={tournamentSize} onChange={handleTournamentSizeChange} disabled={isSoloChecked}>
-            <option value="2">2</option>
-            <option value="4">4</option>
-            <option value="8">8</option>
-            <option value="16">16</option>
-            <option value="32">32</option>
-          </select>
+            <select className='rounded-md' name="teams" id="teams" value={tournamentSize} onChange={handleTournamentSizeChange} disabled={isSoloChecked}>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="8">8</option>
+              <option value="16">16</option>
+              <option value="32">32</option>
+            </select>
 
           <label htmlFor="">Solo</label>
           <input type="checkbox" name="solo" id="solo" checked={isSoloChecked} onChange={handleSoloCheckChange} />
@@ -92,7 +94,7 @@ function TournamentParticipantsManager({ participants, tournamentSize, setPartic
                 {
                   [...Array(tournamentSize)].map((_, index) => (
                     <option className="w-24 h-10" key={index} value={'Time ' + (index+1)}>{isSoloChecked ? 'Time ' + (participantIndex+1) : 'Time '+(index+1)}</option>
-                  ))
+                    ))
                 }
               </select>
             </div>

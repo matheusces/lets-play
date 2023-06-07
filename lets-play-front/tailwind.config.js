@@ -14,6 +14,7 @@ export default {
         'green-primary': 'rgba(0, 34, 42, 0.7)',
         'highlight': 'rgba(194, 3, 175, 0.46)',
         'panel': 'rgba(20, 0, 36, 0.8)',
+        'input-panel': 'rgba(20, 0, 36, 1)',
         'panel-item': '#1B2565',
         'form': 'rgba(27, 37, 101, 0.90)',
         'participants': 'rgba(194, 3, 175, 0.4)',

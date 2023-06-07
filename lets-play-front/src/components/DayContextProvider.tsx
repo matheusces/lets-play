@@ -1,5 +1,5 @@
 import { useState, ReactNode } from 'react';
-import DayContext from '../contexts/DayContext';
+import DayContext from '../contexts/PanelContext';
 
 interface DayContextProviderProps {
   children: ReactNode;

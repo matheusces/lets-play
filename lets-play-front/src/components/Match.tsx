@@ -4,7 +4,7 @@ import * as dayjs from 'dayjs';
 
 import block from '../assets/block.svg';
 import trophyIcon from "../assets/trophy_gold.svg";
-import trophyIcon2 from "../assets/trophy.svg";
+import trophyIcon2 from "../assets/trophy_grad.svg";
 import offlineIcon from '../assets/offline-icon.svg';
 import pencil from '../assets/pencil.svg';
 
@@ -29,6 +29,8 @@ interface MatchComponentProps {
 function Match({ match, handleToggleMatchList }: MatchComponentProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [matchData, setMatchData] = useState<MatchProps>(match);
+  const [isTournament, setIsTournament] = useState(false);
+  const [isLeague, setIsLeague] = useState(true);
 
   function toggleEditMode() {
     setIsEditMode(!isEditMode);
@@ -77,9 +79,11 @@ function Match({ match, handleToggleMatchList }: MatchComponentProps) {
               <h1 className="text-white font-outline-1 text-3xl hover:drop-shadow-primary">
                 {matchData.game}
               </h1>
-              <button className="w-8 h-8">
-                <img className='hover:drop-shadow-tertiary' src={trophyIcon} alt="" />
-              </button>
+              {(isTournament || isLeague) && (
+                <button className="w-8 h-8">
+                  <img className={isTournament ? 'hover:drop-shadow-tertiary' : 'hover:drop-shadow-secondary'} src={isTournament ? trophyIcon : trophyIcon2} alt="" />
+                </button>
+              )}
             </div>
             <button className="flex self-end" onClick={toggleEditMode}>
               <img className='h-12 right-[7%] hover:drop-shadow-primary hover:bg-highlight rounded-2xl p-2' src={pencil} alt="" />
@@ -97,7 +101,7 @@ function Match({ match, handleToggleMatchList }: MatchComponentProps) {
 
                 <div className="w-3/4 h-fit flex flex-col">
                   <span>Descrição</span>
-                  <p className="w-full h-40 p-4 rounded-lg bg-input text-primary">{matchData.description}</p>
+                  <p className="w-full h-40 p-4 rounded-lg bg-input text-white font-outline-1">{matchData.description}</p>
                 </div>
 
               </div>

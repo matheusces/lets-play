@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import DayContext from '../contexts/DayContext';
+import DayContext from '../contexts/PanelContext';
 
 interface DayProps {
   day: string

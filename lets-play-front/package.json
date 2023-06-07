@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@g-loot/react-tournament-brackets": "^1.0.28",
     "@radix-ui/react-dialog": "^1.0.3",
     "axios": "^1.4.0",
     "dayjs": "^1.11.7",

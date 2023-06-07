@@ -1,0 +1,173 @@
+import { Match } from "@g-loot/react-tournament-brackets/dist/src/types";
+
+export const size8: Match[] =  [
+  {
+    id: 20464,
+    name: 'Semi Final - Match 1',
+    nextMatchId: 20463,
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '2',
+    startTime: 'Date Time',
+    state: 'SCORE_DONE',
+    participants: [
+      {
+        id: '1',
+        resultText: null,
+        isWinner: false,
+        status: 'NO_SHOW',
+        name: 'PARTICIPANT',
+      },
+      {
+        id: '4',
+        resultText: null,
+        isWinner: false,
+        status: 'NO_SHOW',
+        name: 'PARTICIPANT',
+      },
+    ],
+  },
+  {
+    id: 20465,
+    name: 'Round 1 - Match 1',
+    nextMatchId: 20464,
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '1',
+    startTime: 'Date Time',
+    state: 'SCORE_DONE',
+    participants: [
+      {
+        id: '1',
+        resultText: '1',
+        isWinner: true,
+        status: 'PLAYED',
+        name: 'PARTICIPANT',
+      },
+      {
+        id: '2',
+        resultText: '0',
+        isWinner: false,
+        status: 'PLAYED',
+        name: 'PARTICIPANT',
+      },
+    ],
+  },
+  {
+    id: 20466,
+    name: 'Round 1 - Match 2',
+    nextMatchId: 20464,
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '1',
+    startTime: 'Date Time',
+    state: 'WALK_OVER',
+    participants: [
+      {
+        id: '3',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'PARTICIPANT',
+      },
+      {
+        id: '4',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'PARTICIPANT',
+      },
+    ],
+  },
+  {
+    id: 20467,
+    name: 'Semi Final - Match 2',
+    nextMatchId: 20463,
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '2',
+    startTime: 'Date Time',
+    state: 'WALK_OVER',
+    participants: [
+      {
+        id: '5',
+        resultText: null,
+        isWinner: true,
+        status: 'WALKOVER',
+        name: 'PARTICIPANT',
+      },
+      {
+        id: '8',
+        resultText: null,
+        isWinner: false,
+        status: 'NO_SHOW',
+        name: 'PARTICIPANT',
+      },
+    ],
+  },
+  {
+    id: 20468,
+    name: 'Round 1 - Match 3',
+    nextMatchId: 20467,
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '1',
+    startTime: 'Date Time',
+    state: 'WALK_OVER',
+    participants: [
+      {
+        id: '5',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'PARTICIPANT',
+      },
+      {
+        id: '6',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'PARTICIPANT',
+      },
+    ],
+  },
+  {
+    id: 20469,
+    name: 'Round 1 - Match 4',
+    nextMatchId: 20467,
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '1',
+    startTime: 'Date Time',
+    state: 'WALK_OVER',
+    participants: [
+      {
+        id: '7',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'PARTICIPANT',
+      },
+      {
+        id: '8',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'PARTICIPANT',
+      },
+    ],
+  },
+  {
+    id: 20463,
+    name: 'Final - Match',
+    nextMatchId: null,
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '3',
+    startTime: 'Date Time',
+    state: 'DONE',
+    participants: [
+      {
+        id: '4',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'PARTICIPANT',
+      }
+    ],
+  },
+];
+
