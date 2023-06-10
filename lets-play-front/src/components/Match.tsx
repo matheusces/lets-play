@@ -9,16 +9,7 @@ import offlineIcon from '../assets/offline-icon.svg';
 import pencil from '../assets/pencil.svg';
 
 import UpdateMatchForm from './UpdateMatchForm';
-
-export interface MatchProps {
-  id: number,
-  game: string,
-  date: string,
-  time: string,
-  participants: string[],
-  voiceChannel: string,
-  description: string,
-}
+import { MatchProps } from '../types/type';
 
 interface MatchComponentProps {
   match: MatchProps;

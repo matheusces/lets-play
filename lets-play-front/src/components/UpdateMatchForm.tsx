@@ -1,6 +1,5 @@
 import { FormEvent, ChangeEvent, useState } from 'react';
 import * as dayjs from 'dayjs';
-import { MatchProps } from './Match';
 
 import trophyIcon from "../assets/trophy_gold.svg";
 import trophyIcon2 from "../assets/trophy.svg";
@@ -9,6 +8,7 @@ import addIcon from '../assets/add.svg';
 import offlineIcon from '../assets/offline-icon.svg';
 import wasteBinIcon from '../assets/waste-bin.svg';
 import pencil from '../assets/pencil.svg';
+import { MatchProps } from '../types/type';
 
 interface handleFunctionsProps {
   editGameName: (gameName: string) => void;

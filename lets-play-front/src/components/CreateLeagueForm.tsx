@@ -7,29 +7,21 @@ import offlineIcon from '../assets/offline-icon.svg';
 import addIcon from '../assets/add.svg';
 import wasteBinIcon from '../assets/waste-bin.svg';
 import noImage from '../assets/block.svg';
-import { Leagues, participantProps } from '../utils/Leagues';
+import { Leagues } from '../utils/Leagues';
+import { GameProps, ParticipantProps } from '../types/type';
 
-export interface GameProps {
-  "id": number,
-  "slug": string,
-  "name": string,
-  "background_image": string,
-  "rating": number,
-  "suggestions_count": number,
-}
 
 interface createTournamentFormProps {
   toggleCreateLeagueForm: () => void;
 }
-
 
 function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps) {
   const [games, setGames] = useState([]);
   const [selectedGame, setSelectedGame] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
   const [title, setTitle] = useState('');
-  const [participant, setParticipant] = useState<participantProps>({name : '', team: 'Time 1'});
-  const [participants, setParticipants] = useState<participantProps[]>([]);
+  const [participant, setParticipant] = useState<ParticipantProps>({name : '', team: 'Time 1'});
+  const [participants, setParticipants] = useState<ParticipantProps[]>([]);
   const [leagueSize, setLeagueSize] = useState(1);
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const [isParticipantsManagerActive, setIsParticipantsManagerActive] = useState(false);
@@ -49,7 +41,7 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
     setIsDropdownActive(false);
   }
 
-  function groupParticipantsByTeam(participants: participantProps[]): { [team: string]: string[] } {
+  function groupParticipantsByTeam(participants: ParticipantProps[]): { [team: string]: string[] } {
     const groupedParticipants: { [team: string]: string[] } = {};
   
     participants.forEach(participant => {

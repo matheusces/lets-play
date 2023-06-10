@@ -1,7 +1,8 @@
 
 import { useState } from "react";
 import MatchList from "./MatchList";
-import Match, { MatchProps } from './Match';
+import Match from './Match';
+import { MatchProps } from "../types/type";
 
 
 function DayMatchsPanel() {
