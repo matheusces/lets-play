@@ -14,7 +14,7 @@ import Overlay from './Overlay';
 import GroupManager from './GroupManager';
 import FriendManager from './FriendManager';
 import NotificationPanel from './Notification/NotificationPanel';
-import ConfigPanel from './Notification/ConfigPanel';
+import ConfigPanel from './ConfigPanel';
 
 function Sidebar() {
   const [isLoginFormActive, setIsLoginFormActive] = useState(false);

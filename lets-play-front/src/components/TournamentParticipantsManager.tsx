@@ -1,18 +1,14 @@
 import { ChangeEvent, useState } from 'react';
+import { ParticipantProps } from '../types/type';
 
 interface TournamentParticipantsManagerProps {
-  participants: participantProps[],
+  participants: ParticipantProps[],
   tournamentSize: number;
   isSoloChecked: boolean;
   setIsSoloChecked: React.Dispatch<React.SetStateAction<boolean>>;
-  setParticipants: React.Dispatch<React.SetStateAction<participantProps[]>>;
+  setParticipants: React.Dispatch<React.SetStateAction<ParticipantProps[]>>;
   handleChangeTournamentSize: (event: ChangeEvent<HTMLSelectElement>) => void;
   handleToggleParticipantsManager: () => void;
-}
-
-interface participantProps {
-  name: string;
-  team: string;
 }
 
 function TournamentParticipantsManager({participants, tournamentSize, setParticipants, isSoloChecked, setIsSoloChecked, handleChangeTournamentSize, handleToggleParticipantsManager }: TournamentParticipantsManagerProps) {

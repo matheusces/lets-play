@@ -1,19 +1,3 @@
-export interface LeagueProps {
-  id: string;
-  title: string;
-  game_img: string;
-  game: string;
-  leagueSize: number;
-  participants: participantProps[];
-  teams: {
-    [team: string]: string[];
-  };
-}
-
-export interface participantProps {
-  name: string;
-  team: string;
-}
 
 export let Leagues = [
   {

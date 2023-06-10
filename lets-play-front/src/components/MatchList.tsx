@@ -1,6 +1,6 @@
 import { matchs } from "../utils/matchs"
 import users from '../assets/users.svg';
-import { MatchProps } from "./Match";
+import { MatchProps } from "../types/type";
 
 interface MatchListProps {
   handleToggleMatchSelected: (match: MatchProps) => void,

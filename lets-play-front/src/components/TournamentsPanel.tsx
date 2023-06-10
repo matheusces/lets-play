@@ -7,7 +7,9 @@ function TournamentsPanel() {
   const [selectedTournamentID, setSetSelectedTournamentID] = useState('');
 
   function toggleIsTournamentSelected() {
-    setIsTournamentSelected(!isTournamentSelected);
+    setTimeout(() => {
+      setIsTournamentSelected(!isTournamentSelected);
+    }, 1000);	
   }
 
   return (

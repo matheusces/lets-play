@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState, ChangeEvent } from 'react';
-import { GameProps } from './CreateLeagueForm';
 
-import { Leagues, LeagueProps, participantProps } from '../utils/Leagues';
+import { Leagues } from '../utils/Leagues';
 
 import wasteBinIcon from '../assets/waste-bin.svg';
 import noImage from '../assets/block.svg';
 import rightArrowBlue from '../assets/right-arrow-blue.svg';
 import LeagueStat from './LeagueStat';
+import { GameProps, LeagueProps, ParticipantProps } from '../types/type';
 
 interface ComponentLeagueProps {
   leagueID: string;
@@ -26,7 +26,7 @@ function League({ leagueID, toggleIsLeagueSelected }: ComponentLeagueProps) {
   
   const [selectedGame, setSelectedGame] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
-  const [participant, setParticipant] = useState<participantProps>({name : '', team: 'Time 1'});
+  const [participant, setParticipant] = useState<ParticipantProps>({name : '', team: 'Time 1'});
   // const [isParticipantsManagerActive, setIsParticipantsManagerActive] = useState(false);
   // const [title, setTitle] = useState('');
   // const [participants, setParticipants] = useState<participantProps[]>([]);
@@ -65,7 +65,7 @@ function League({ leagueID, toggleIsLeagueSelected }: ComponentLeagueProps) {
     updateTeams();
   }
 
-  function groupParticipantsByTeam(participants: participantProps[]): { [team: string]: string[]; } {
+  function groupParticipantsByTeam(participants: ParticipantProps[]): { [team: string]: string[]; } {
     const groupedParticipants: { [team: string]: string[] } = {};
   
     participants.forEach(participant => {

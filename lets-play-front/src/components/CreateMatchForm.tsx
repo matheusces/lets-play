@@ -4,18 +4,10 @@ import axios from 'axios';
 import AddVoiceChannel from './AddVoiceChannel';
 import InviteParticipantInput from './InviteParticipantInput';
 import ParticipantsList from './ParticipantsList';
+import { GameProps } from '../types/type';
 
 interface CreateMatchFormProps {
   toggleCreateMatchForm: (value: boolean) => void
-}
-
-interface GameProps {
-  "id": number,
-  "slug": string,
-  "name": string,
-  "background_image": string,
-  "rating": number,
-  "suggestions_count": number,
 }
 
 function CreateMatchForm({ toggleCreateMatchForm }: CreateMatchFormProps) {
