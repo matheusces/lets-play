@@ -1,20 +1,27 @@
 import { FormEvent, useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 
+import TournamentParticipantsManager from './TournamentParticipantsManager';
 import Overlay from './Overlay';
+
+import { GameProps, ParticipantProps, TeamInfoProps } from '../types/type';
+import { Match } from '@g-loot/react-tournament-brackets/dist/src/types';
+import { Tournaments } from '../utils/Tournaments';
+import { size2 } from '../utils/TournamentSizeTemplates/size2';
+import { size4 } from '../utils/TournamentSizeTemplates/size4';
+import { size8 } from '../utils/TournamentSizeTemplates/size8';
+import { size16 } from '../utils/TournamentSizeTemplates/size16';
+
 import rightArrowBlue from '../assets/right-arrow-blue.svg';
 import offlineIcon from '../assets/offline-icon.svg';
 import addIcon from '../assets/add.svg';
 import wasteBinIcon from '../assets/waste-bin.svg';
 import noImage from '../assets/block.svg';
-import TournamentParticipantsManager from './TournamentParticipantsManager';
-import { Tournaments } from '../utils/Tournaments';
-import { GameProps, ParticipantProps } from '../types/type';
+import hourglassIcon from '../assets/hourglass.gif';
 
 interface createTournamentFormProps {
   toggleCreateTournamentForm: () => void;
 }
-
 
 function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFormProps) {
   const [games, setGames] = useState([]);
@@ -28,6 +35,12 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
   const [isParticipantsManagerActive, setIsParticipantsManagerActive] = useState(false);
   const [isSoloChecked, setIsSoloChecked] = useState(false);
 
+  const sizes: { [size: number] : Match[] } = {
+    2: size2,
+    4: size4,
+    8: size8,
+    16: size16,
+  }
 
   function handleToggleDropdown() {
     setIsDropdownActive(!isDropdownActive);
@@ -43,20 +56,24 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
     setIsDropdownActive(false);
   }
 
-  function groupParticipantsByTeam(participants: ParticipantProps[]): { [team: string]: string[] } {
-    const groupedParticipants: { [team: string]: string[] } = {};
+  function groupParticipantsByTeam(participants: ParticipantProps[]): TeamInfoProps[] {
+    const teams: TeamInfoProps[] = [];
   
-    participants.forEach(participant => {
-      const { name, team } = participant;
+    participants.forEach((participant) => {
+      const existingTeam = teams.find((team) => team.name === participant.team);
   
-      if (groupedParticipants[team]) {
-        groupedParticipants[team].push(name);
+      if (existingTeam) {
+        existingTeam.players.push(participant.name);
       } else {
-        groupedParticipants[team] = [name];
+        teams.push({
+          id: teams.length + 1,
+          name: participant.team,
+          players: [participant.name],
+        });
       }
     });
   
-    return groupedParticipants;
+    return teams;
   }
 
   function clearForm() {
@@ -130,6 +147,7 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
       participants,
       tournamentSize,
       teams: groupParticipantsByTeam(participants),
+      matches: sizes[tournamentSize],
     }
 
     console.log(formData);
@@ -175,7 +193,7 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
         <img className='right-10' src={rightArrowBlue} alt="" />
       </button>
       {isDropdownActive && (
-        <div className='w-[28rem] max-h-48 overflow-scroll hide-scroll-bar absolute bg-input rounded-br-lg rounded-bl-lg top-[7rem] left-[10.5rem] border-x border-b border-secondary'>
+        <div className='w-[28rem] max-h-48 overflow-scroll hide-scroll-bar absolute bg-input rounded-br-lg rounded-bl-lg top-[11rem] left-[10.5rem] border-x border-b border-secondary'>
           <ul className='flex flex-col items-center gap-2'>
             {games.map((game: GameProps, index) => (
               <li 
@@ -205,7 +223,7 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
               <option className='rounded-xl' value="4">4</option>
               <option className='rounded-xl' value="8">8</option>
               <option className='rounded-xl' value="16">16</option>
-              <option className='rounded-xl' value="32">32</option>
+              {/* <option className='rounded-xl' value="32">32</option> */}
             </select>
           </div>
 
@@ -228,7 +246,7 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
               <div className='w-full flex flex-row items-center justify-between gap-2' key={index}>
                 
                 <button className='w-full flex flex-row items-center gap-2 hover:drop-shadow-secondary hover:cursor-pointer' type='button' onClick={handleToggleParticipantsManager}>
-                  <img src={offlineIcon} alt="circulo" />
+                  <img className='p-1 w-10 h-10' src={hourglassIcon} alt="ampulheta" title='aceitação pendente' />
                   <span>
                     {user.name}
                   </span>
@@ -248,9 +266,7 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
             <TournamentParticipantsManager participants={participants} setParticipants={setParticipants} isSoloChecked={isSoloChecked} setIsSoloChecked={setIsSoloChecked} tournamentSize={tournamentSize} handleChangeTournamentSize={handleChangeTournamentSize} handleToggleParticipantsManager={handleToggleParticipantsManager} />
             <Overlay onClick={handleToggleParticipantsManager} />
           </>
-
         )}
-
       </div>
     </form>
   )

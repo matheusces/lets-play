@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { useEffect, useState, ChangeEvent } from 'react';
+import { GameProps, LeagueProps, ParticipantProps } from '../types/type';
 
 import { Leagues } from '../utils/Leagues';
+import LeagueStat from './LeagueStat';
 
 import wasteBinIcon from '../assets/waste-bin.svg';
-import noImage from '../assets/block.svg';
 import rightArrowBlue from '../assets/right-arrow-blue.svg';
-import LeagueStat from './LeagueStat';
-import { GameProps, LeagueProps, ParticipantProps } from '../types/type';
+import noImage from '../assets/block.svg';
+import LeagueDropdown from './LeagueDropdown';
 
 interface ComponentLeagueProps {
   leagueID: string;
@@ -15,7 +16,7 @@ interface ComponentLeagueProps {
 }
 
 function League({ leagueID, toggleIsLeagueSelected }: ComponentLeagueProps) {
-  const [league, setLeague] = useState<LeagueProps | undefined>({} as LeagueProps);
+  const [league, setLeague] = useState<LeagueProps>({} as LeagueProps);
   const [isEditModeActive, setIsEditModeActive] = useState(false);
   const [isParticipantManagerActive, setIsParticipantManagerActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -264,36 +265,15 @@ function League({ leagueID, toggleIsLeagueSelected }: ComponentLeagueProps) {
               )}
             </div>
 
-            <div className='w-1/3 h-full flex flex-col items-center justify-around p-4'>
-              <div className='h-full flex flex-col items-start justify-around'>
-                <button type='button' className='w-56 h-24 flex justify-between items-center bg-input text-white text-center rounded-lg font-outline-1 border focus-within:border-secondary'>
-                  {/* <img src={selectedImage === undefined ? noImage : selectedImage} className='h-20 bg-img border border-secondary rounded-lg'/> */}
-                  <input className='w-full text-center p-2 bg-input text-ellipsis focus:outline-0' placeholder='Selecione o jogo' onChange={handleGameChange} value={selectedGame} />
-                  <img className={isDropdownActive ? 'right-10 rotate-90 transition-all' : 'right-10 transition-all'} src={rightArrowBlue} alt="" onClick={handleToggleDropdown} />
-                </button>
-                {isDropdownActive && (
-                  <div className='w-56 max-h-48 overflow-scroll hide-scroll-bar relative bg-input rounded-br-lg rounded-bl-lg bottom-[5rem] right-[0rem] border-x border-b border-secondary'>
-                    <ul className='flex flex-col items-center gap-2'>
-                      {games.map((game: GameProps, index) => (
-                        <li 
-                          key={index} 
-                          onClick={() =>handleSelectGame(game)}
-                          className='flex items-start cursor-pointer text-left gap-1 text-ellipsis w-full p-2 hover:text-white'
-                        >
-                          <img className='w-16 h-16' src={game.background_image} alt="" />
-                          {game.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {/* {
-                    selectedImage !== undefined &&
-                  <img className='w-56 h-48 fixed z-0' src={selectedImage} alt="" />
-                } */}
+            <div className='flex flex-col gap-4 items-center'>
+              <div className='flex flex-col gap-2 items-center'>
+                <h1 className='text-secondary text-xl self-start'>Jogo</h1>
+                <LeagueDropdown league={league!} setLeague={setLeague} />
               </div>
-                  
-              <button className='w-40 h-fit rounded-lg p-2 hover:drop-shadow-primary bg-primary text-white' onClick={toggleEditMode}>Voltar</button>
+              <div className='flex flex-col gap-3 items-center'>
+                <img className='w-52 drop-shadow-primary border border-secondary hover:drop-shadow-secondary z-0' src={league?.game_img} alt="" />
+                <button className='w-40 h-fit rounded-lg p-2 hover:drop-shadow-primary bg-primary text-white' onClick={toggleEditMode}>Voltar</button>
+              </div>
             </div>
           </>
 
@@ -304,7 +284,7 @@ function League({ leagueID, toggleIsLeagueSelected }: ComponentLeagueProps) {
               <h1>loading</h1>
             ) : (
               <>
-                <h1>{league?.title}</h1>
+                <h1 className='text-xl text-secondary'>{league?.title}</h1>
                 
                 <div className="w-full h-full bg-panel-item rounded-lg flex flex-col items-start justify-start py-4 px-2 text-xl text-white font-outline-1 gap-2 hover:drop-shadow-secondary">
                   <div className='w-full h-fit text-sm flex justify-between px-2'>
@@ -343,8 +323,8 @@ function League({ leagueID, toggleIsLeagueSelected }: ComponentLeagueProps) {
 
           <div className='w-1/3 h-full flex flex-col items-center justify-around p-4'>
             <div className='flex flex-col'>
-              <span>{league?.game}</span>
-              <img className='w-56 h-48' src={league?.game_img} alt="" />
+              <h1 className='text-xl text-secondary'>{league?.game}</h1>
+              <img className='w-56 h-48 drop-shadow-primary border border-secondary hover:drop-shadow-secondary z-0' src={league?.game_img} alt="" />
 
             </div>
 

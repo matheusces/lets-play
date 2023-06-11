@@ -2,13 +2,16 @@ import { FormEvent, useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 
 import Overlay from './Overlay';
+
+import { Leagues } from '../utils/Leagues';
+import { GameProps, ParticipantProps } from '../types/type';
+
 import rightArrowBlue from '../assets/right-arrow-blue.svg';
 import offlineIcon from '../assets/offline-icon.svg';
 import addIcon from '../assets/add.svg';
 import wasteBinIcon from '../assets/waste-bin.svg';
 import noImage from '../assets/block.svg';
-import { Leagues } from '../utils/Leagues';
-import { GameProps, ParticipantProps } from '../types/type';
+import hourglassIcon from '../assets/hourglass.gif';
 
 
 interface createTournamentFormProps {
@@ -260,9 +263,8 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
           <div className='w-80 h-40 max-h-40 overflow-scroll hide-scroll-bar flex flex-col mt-4 rounded-lg bg-input p-2 text-secondary text-2xl focus:border-secondary'>
             {participants.map((user, index) => (
               <div className='w-full flex flex-row items-center justify-between gap-2' key={index}>
-                
                 <button className='w-full flex flex-row items-center gap-2 hover:drop-shadow-secondary hover:cursor-pointer' type='button' onClick={handleToggleParticipantsManager}>
-                  <img src={offlineIcon} alt="circulo" />
+                  <img className='p-1 w-10 h-10' src={hourglassIcon} alt="ampulheta" title='aceitação pendente' />
                   <span>
                     {user.name}
                   </span>
