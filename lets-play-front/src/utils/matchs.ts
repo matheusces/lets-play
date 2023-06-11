@@ -1,6 +1,6 @@
 export const matchs = [
   {
-    id: 1,
+    id: '1',
     game: 'Counter Striker',
     date: '24/04/2023',
     time: '14:00',
@@ -9,7 +9,7 @@ export const matchs = [
     description: 'Lorem ipsum dolor sit a',
   },
   {
-    id: 2,
+    id: '2',
     game: 'Counter Striker',
     date: '24/04/2023',
     time: '14:00',
@@ -18,7 +18,7 @@ export const matchs = [
     description: 'Lorem ipsum dolor sit a',
   },
   {
-    id: 3,
+    id: '3',
     game: 'Counter Striker',
     date: '24/04/2023',
     time: '14:00',
@@ -27,7 +27,7 @@ export const matchs = [
     description: 'Lorem ipsum dolor sit a',
   },
   {
-    id: 3,
+    id: '4',
     game: 'Counter Striker',
     date: '24/04/2023',
     time: '14:00',
@@ -36,7 +36,7 @@ export const matchs = [
     description: 'Lorem ipsum dolor sit a',
   },
   {
-    id: 3,
+    id: '5',
     game: 'Counter Striker',
     date: '24/04/2023',
     time: '14:00',
@@ -45,7 +45,7 @@ export const matchs = [
     description: 'Lorem ipsum dolor sit a',
   },
   {
-    id: 3,
+    id: '6',
     game: 'Counter Striker',
     date: '24/04/2023',
     time: '14:00',
@@ -54,7 +54,7 @@ export const matchs = [
     description: 'Lorem ipsum dolor sit a',
   },
   {
-    id: 3,
+    id: '7',
     game: 'Counter Striker',
     date: '24/04/2023',
     time: '14:00',

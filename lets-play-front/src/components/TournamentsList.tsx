@@ -6,6 +6,8 @@ import participantsIcon from '../assets/participants.svg';
 import wasteBinIcon from '../assets/waste-bin.svg';
 import { useState, useEffect } from 'react';
 import { TournamentProps } from '../types/type';
+import Confirmation from './Confirmation';
+import Overlay from './Overlay';
 
 interface TournamentsListProps {
   toggleIsTournamentSelected: () => void;
@@ -15,6 +17,17 @@ interface TournamentsListProps {
 function TournamentsList({ toggleIsTournamentSelected, setSelectedTournamentID }: TournamentsListProps) {
   const [TournamentsList, setTournamentsList] = useState<TournamentProps[]>();
   const [isLoading, setIsLoading] = useState(true);
+  const [isConfirmationWindowActive, setIsConfirmationWindowActive] = useState(false);
+  const [tournamentIDToDelete, setTournamentIDToDelete] = useState('');
+
+  function toggleConfirmationWindow(){
+    setIsConfirmationWindowActive(!isConfirmationWindowActive);
+  }
+
+  function handleDelete(id: string){
+    setTournamentIDToDelete(id);
+    toggleConfirmationWindow();
+  }
 
   function handleSelectedTournament(tournamentID: string){
     toggleIsTournamentSelected();
@@ -60,14 +73,20 @@ function TournamentsList({ toggleIsTournamentSelected, setSelectedTournamentID }
                 </div>
               </div>
             </button>
-            <button className='w-12 h-12 self-center p-1 text-xl bg-panel text-secondary rounded-full hover:drop-shadow-secondary' onClick={() => handleRemoveTournament(tournament.id)}>
+            <button className='w-12 h-12 self-center p-1 text-xl bg-panel text-secondary rounded-full hover:drop-shadow-secondary' onClick={() => handleDelete(tournament.id)}>
               <img src={wasteBinIcon} alt="" />
             </button>
           </div>
           ))
-      )
-    }
-    {}
+        )
+      }
+      {
+        isConfirmationWindowActive && (
+        <>
+          <Confirmation action="excluir o torneio" onConfirm={() => handleRemoveTournament(tournamentIDToDelete)} toggleConfirmation={toggleConfirmationWindow} />
+          <Overlay onClick={toggleConfirmationWindow} />
+        </>
+      )}
    </div>
   )
 }

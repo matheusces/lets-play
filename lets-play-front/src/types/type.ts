@@ -44,11 +44,11 @@ export interface GameProps {
 }
 
 export interface MatchProps {
-  id: number,
-  game: string,
-  date: string,
-  time: string,
-  participants: string[],
-  voiceChannel: string,
-  description: string,
+  id: string;
+  game: string;
+  date: string;
+  time: string;
+  participants: string[];
+  voiceChannel: string;
+  description: string;
 }
