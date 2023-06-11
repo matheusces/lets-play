@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import addFolderIcon from '../assets/folder-add.svg';
 import wasteBin from '../assets/waste-bin.svg';
 import closeIcon from '../assets/cross-mark.svg';
+import hourglassIcon from '../assets/hourglass.gif';
 
 interface GroupManagerProps {
   groups: string[];
@@ -103,7 +104,8 @@ function GroupManager({ groups, setGroups, toggleGroupManager }: GroupManagerPro
               </div>
               <div className='w-ful h-44 max-h-44 flex flex-col text-secondary rounded-md border border-primary p-2 overflow-scroll hide-scroll-bar'>
                 {invitedParticipants.map((participant, index) => (
-                  <div key={index} className='w-full flex justify-between rounded-lg '>
+                  <div key={index} className='w-full flex items-center justify-between rounded-lg '>
+                    <img className='p-1 w-8 h-8' src={hourglassIcon} alt="ampulheta" title='aceitação pendente' />
                     <span className='w-full hover:drop-shadow-primary'>
                       {participant}
                     </span>

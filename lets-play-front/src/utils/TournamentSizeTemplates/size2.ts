@@ -2,9 +2,9 @@ import { Match } from "@g-loot/react-tournament-brackets/dist/src/types";
 
 export const size2: Match[] =  [
   {
-    id: 20464,
+    id: 'Time 1',
     name: 'Time Finalista',
-    nextMatchId: 20463,
+    nextMatchId: 'Champion',
     nextLooserMatchId: undefined,
     tournamentRoundText: '2',
     startTime: 'Date time',
@@ -13,16 +13,16 @@ export const size2: Match[] =  [
       {
         id: '1',
         resultText: null,
-        isWinner: true,
+        isWinner: false,
         status: 'DONE',
         name: 'TBD',
       },
     ],
   },
   {
-    id: 20467,
+    id: 'Time 2',
     name: 'Time Finalista',
-    nextMatchId: 20463,
+    nextMatchId: 'Champion',
     nextLooserMatchId: undefined,
     tournamentRoundText: '2',
     startTime: 'Date time',
@@ -45,7 +45,7 @@ export const size2: Match[] =  [
     ],
   },
   {
-    id: 20463,
+    id: 'Champion',
     name: 'CHAMPION',
     nextMatchId: null,
     nextLooserMatchId: undefined,

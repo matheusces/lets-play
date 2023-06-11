@@ -4,7 +4,6 @@ export interface TeamInfoProps {
   id: number;
   name: string;
   players: string[];
-  position: string;
 }
 
 export interface TournamentProps {

@@ -11,7 +11,7 @@ import { size4 } from '../utils/TournamentSizeTemplates/size4';
 import { Tournaments } from '../utils/Tournaments';
 import { size8 } from '../utils/TournamentSizeTemplates/size8';
 import { size16 } from '../utils/TournamentSizeTemplates/size16';
-import { TournamentProps } from '../types/type';
+import { ParticipantProps, TeamInfoProps, TournamentProps } from '../types/type';
 
 interface TournamentComponentProps {
   tournamentID: string;
@@ -38,12 +38,14 @@ function Tournament({ tournamentID, toggleIsTournamentSelected }: TournamentComp
     setIsEditModeActive(!isEditModeActive);
   }
 
+  function saveUpdate(){
+    console.log("Atualizando torneio no banco de dados...")
+    setIsEditModeActive(!isEditModeActive);
+  }
+
   function toggleManager(){
     setIsParticipantManagerActive(!isParticipantManagerActive);
     setIsTeamsManagerActive(!isTeamsManagerActive);
-    // setTeams();
-    // console.log('isParticipantManagerActive: ' + isParticipantManagerActive);
-    // console.log('isTeamsManagerActive: ' + isTeamsManagerActive);
   }
 
   function toggleMatchManager(){
@@ -72,33 +74,27 @@ function Tournament({ tournamentID, toggleIsTournamentSelected }: TournamentComp
     updateTeams();
   }
 
-  // function updateeTeams(participants: participantProps[], teams: TeamInfoProps[]): TeamInfoProps[] {
-  //   const updatedTeams: TeamInfoProps[] = [...teams];
+  function groupParticipantsByTeam(participants: ParticipantProps[]): TeamInfoProps[] {
+    const teams: TeamInfoProps[] = [];
   
-  //   participants.forEach((participant) => {
-  //     const teamIndex = updatedTeams.findIndex((team) => team.name === participant.team);
+    participants.forEach((participant) => {
+      const existingTeam = teams.find((team) => team.name === participant.team);
   
-  //     if (teamIndex !== -1) {
-  //       const playerIndex = updatedTeams[teamIndex].players.indexOf(participant.name);
+      if (existingTeam) {
+        existingTeam.players.push(participant.name);
+      } else {
+        teams.push({
+          id: teams.length + 1,
+          name: participant.team,
+          players: [participant.name],
+        });
+      }
+    });
   
-  //       if (playerIndex === -1) {
-  //         updatedTeams[teamIndex].players.push(participant.name);
-  //       }
-  //     } else {
-  //       updatedTeams.push({
-  //         id: updatedTeams.length + 1,
-  //         name: participant.team,
-  //         players: [participant.name],
-  //       });
-  //     }
-  //   });
-  
-  //   return updatedTeams;
-  // }
+    return teams;
+  }
 
   function handleChangeTeam(team: string, participantIndex: number, ) {
-    const previousTeam = tournament.participants[participantIndex].team;
-
     const updatedParticipant = {
       name: tournament.participants[participantIndex].name,
       team,
@@ -109,18 +105,14 @@ function Tournament({ tournamentID, toggleIsTournamentSelected }: TournamentComp
     const updatedTournament = {...tournament, participants: updatedParticipants};
     
     setTournament(updatedTournament);
-
-    const participant = tournament.participants[participantIndex].name;
-
-    // console.log(updateeTeams(updatedParticipants, tournament.teams));
-
-    // console.log(tournament.teams);
   }
 
-  // useEffect(() => {
-  //   syncTeamsWithParticipants();
-  // }, [tournament.participants]);
-
+  useEffect(() => {
+    setTimeout(() => {
+      const updatedTeams = groupParticipantsByTeam(tournament.participants);
+      setTournament({...tournament, teams: updatedTeams})
+    }, 1000);
+  }, [tournament.participants]);
 
   function handleTournamentSizeChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const newTournamentSize = e.target.value;
@@ -142,7 +134,7 @@ function Tournament({ tournamentID, toggleIsTournamentSelected }: TournamentComp
         isEditModeActive ? (
           <div className='w-full h-full p-8 flex flex-col gap-1'>
             <div className='flex justify-end'>
-              <button className='w-fit p-1 bg-primary rounded-md text-white' onClick={toggleEditMode}>Salvar</button>
+              <button className='w-fit p-1 bg-primary rounded-md text-white' onClick={saveUpdate}>Salvar</button>
             </div>
             <div className='flex h-full w-full gap-2'>
               <div className='flex flex-col items-center gap-2'>
@@ -235,22 +227,15 @@ function Tournament({ tournamentID, toggleIsTournamentSelected }: TournamentComp
                 <button className='w-fit p-1 bg-primary rounded-md text-white hover:drop-shadow-primary' onClick={toggleIsTournamentSelected}>voltar</button>
               </div>
             </div>
-            <button className='relative' onClick={toggleMatchManager}>
-              <SingleEliminationBracket
-                matches={tournament?.matches}
-                matchComponent={Match}
-                svgWrapper={({ children, ...props }) => (
-                  <SVGViewer SVGBackground={GlootTheme.svgBackground}  width={900} height={500} {...props}>
-                    {children}
-                  </SVGViewer>
-                )}
-              />
-            </button>
-            {
-              isEditMatchActive && (
-                <TournamentMatchManager tournament={tournament} setTournament={setTournament} toggleMatchManager={toggleMatchManager} />
-              )
-            }
+            <SingleEliminationBracket
+              matches={tournament?.matches}
+              matchComponent={Match}
+              svgWrapper={({ children, ...props }) => (
+                <SVGViewer SVGBackground={GlootTheme.svgBackground}  width={900} height={500} {...props}>
+                  {children}
+                </SVGViewer>
+              )}
+            />
           </div>
         )
       )}

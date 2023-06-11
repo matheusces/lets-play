@@ -7,14 +7,14 @@ interface TournamentTeamManagerProps {
 
 function TournamentTeamManager({ tournament, setTournament }: TournamentTeamManagerProps) {
 
-  function handleChangeLabel(team: string, matchId: string | number) {
+  function handleChangeLabel(team: string, matchId: string | number, index: number) {
     
     setTournament((prevTournament) => {
       let matches = prevTournament.matches;
       let newMatch = matches.find(match => match.id === matchId);
       
       if (newMatch) {
-        newMatch.participants[0].name = [team];
+        newMatch.participants[index].name = [team];
       }
 
       matches.map(match => match.id === matchId ? newMatch : match);
@@ -38,8 +38,8 @@ function TournamentTeamManager({ tournament, setTournament }: TournamentTeamMana
       { tournament.matches.map((match) => (
           match.participants.map((participant, index) => (
             <div key={index} className="w-full h-fit flex justify-between items-center p-2 rounded-lg hover:bg-panel hover:drop-shadow-primary">
-              <span>{match.name}</span>
-              <select className='w-86 h-8 self-start rounded-lg bg-panel px-1 text-secondary text-sm focus:border-secondary' onChange={(e) => handleChangeLabel(e.target.value, match.id)}>
+              <span>{match.name}, participante {index+1}</span>
+              <select className='w-86 h-8 self-start rounded-lg bg-panel px-1 text-secondary text-sm focus:border-secondary' onChange={(e) => handleChangeLabel(e.target.value, match.id, index)}>
                 <option value="TBD">TBD</option> 
                 {
                   tournament.teams.map((team, index) => (
