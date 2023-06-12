@@ -11,11 +11,10 @@ import wasteBinIcon from '../assets/waste-bin.svg';
 
 interface TournamentsListProps {
   tournaments: TournamentProps[];
-  // toggleIsTournamentSelected: () => void;
-  // setSelectedTournamentID: React.Dispatch<React.SetStateAction<string>>;
+  handleSelectTournament: (tournamentId: string) => void;
 }
 
-function GroupTournamentsList({ tournaments }: TournamentsListProps) {
+function GroupTournamentsList({ tournaments, handleSelectTournament }: TournamentsListProps) {
   const [isConfirmationWindowActive, setIsConfirmationWindowActive] = useState(false);
   const [TournamentsList, setTournamentsList] = useState<TournamentProps[]>();
   const [isLoading, setIsLoading] = useState(true);
@@ -28,11 +27,6 @@ function GroupTournamentsList({ tournaments }: TournamentsListProps) {
   function handleDelete(id: string){
     setTournamentIDToDelete(id);
     toggleConfirmationWindow();
-  }
-
-  function handleSelectedTournament(tournamentID: string){
-    // toggleIsTournamentSelected();
-    // setSelectedTournamentID(tournamentID);
   }
 
   function handleRemoveTournament(tournamentID: string){
@@ -60,7 +54,7 @@ function GroupTournamentsList({ tournaments }: TournamentsListProps) {
       ) : (
         TournamentsList?.map((tournament, index) => (
           <div key={tournament.id} className="flex gap-2">
-            <button key={index} className="w-[40rem] h-16 bg-panel-item rounded-lg flex items-center justify-between p-4 text-xl text-white font-outline-1 gap-2 hover:drop-shadow-secondary" onClick={() => handleSelectedTournament(tournament.id)}>
+            <button key={index} className="w-[40rem] h-16 bg-panel-item rounded-lg flex items-center justify-between p-4 text-xl text-white font-outline-1 gap-2 hover:drop-shadow-secondary" onClick={() => handleSelectTournament(tournament.id)}>
               <img className="w-10 h-10" src={trophyIcon2} alt="Icone de um Troféu" />
               <span>{tournament.title}</span>
               <div className="flex items-center gap-4">
