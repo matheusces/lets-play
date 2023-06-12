@@ -52,3 +52,12 @@ export interface MatchProps {
   voiceChannel: string;
   description: string;
 }
+
+export interface GroupProps {
+  id: string;
+  name: string;
+  participants: string[];
+  matches: MatchProps[];
+  leagues: LeagueProps[];
+  tournaments: TournamentProps[];
+}

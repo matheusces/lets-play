@@ -2,26 +2,22 @@ import React from 'react';
 
 interface PanelContextProps {
   selectedDay: string;
+  selectedGroupID: string;
   setSelectedDay: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedGroupID: React.Dispatch<React.SetStateAction<string>>;
   isDaySelected: boolean;
-  isLeagueSelected: boolean;
-  isTournamenteSelected: boolean;
   isGroupSelected: boolean;
-  setIsLeagueSelected: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsTournamenteSelected: React.Dispatch<React.SetStateAction<boolean>>;
   setIsGroupSelected: React.Dispatch<React.SetStateAction<boolean>>;
   setIsDaySelected: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PanelContext =  React.createContext<PanelContextProps>({
   selectedDay: '',
+  selectedGroupID: '',
   setSelectedDay: () => {},
+  setSelectedGroupID: () => {},
   isDaySelected: false,
-  isLeagueSelected: false,
-  isTournamenteSelected: false,
   isGroupSelected: false,
-  setIsLeagueSelected: () => {},
-  setIsTournamenteSelected: () => {},
   setIsGroupSelected: () => {},
   setIsDaySelected: () => {},
 });

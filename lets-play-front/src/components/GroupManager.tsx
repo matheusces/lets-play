@@ -3,14 +3,17 @@ import addFolderIcon from '../assets/folder-add.svg';
 import wasteBin from '../assets/waste-bin.svg';
 import closeIcon from '../assets/cross-mark.svg';
 import hourglassIcon from '../assets/hourglass.gif';
+import { GroupProps } from '../types/type';
+import { groups } from '../utils/Groups';
 
 interface GroupManagerProps {
-  groups: string[];
-  setGroups: React.Dispatch<React.SetStateAction<string[]>>;
+  groups: GroupProps[];
+  setGroups: React.Dispatch<React.SetStateAction<GroupProps[]>>;
   toggleGroupManager: () => void;
 }
 
 function GroupManager({ groups, setGroups, toggleGroupManager }: GroupManagerProps) {
+  const [group, setGroup] = useState<GroupProps>();
   const [groupName, setGroupName] = useState('');
   const [newParticipant, setNewParticipant] = useState('');
   const [invitedParticipants, setInvitedParticipants] = useState<string[]>([]);
@@ -58,27 +61,28 @@ function GroupManager({ groups, setGroups, toggleGroupManager }: GroupManagerPro
 
   }
 
-  function handleAddGroup(group: string) {
-    setGroups([...groups, group]);
-  }
-
-  function handleRemoveGroup(group: string) {
-    const newGroups = groups.filter((groupItem) => groupItem !== group);
-    setGroups(newGroups);
+  function handleRemoveGroup(groupId: string) {
+    const newGroupsList = groups.filter(group => group.id !== groupId);
+    setGroups(newGroupsList);
+    groups.splice(groups.findIndex(group => group.id === groupId), 1);
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const formData = {
-      groupName,
-      invitedParticipants
-    }
+    const newGroup ={
+      id: (groups.length + 1).toString(),
+      name: groupName,
+      participants: invitedParticipants,
+      matches: [],
+      leagues: [],
+      tournaments: []
+    };
 
-    handleAddGroup(groupName);
+    setGroup(newGroup);
 
-    console.log(formData)
-    console.log('Group created');
+    groups.push(group as GroupProps);
+
     clearForm();
     toggleCreateGroup();
   }
@@ -132,9 +136,9 @@ function GroupManager({ groups, setGroups, toggleGroupManager }: GroupManagerPro
                   {groups.map((group, index) => (
                     <li key={index} className='flex justify-between rounded-lg'>
                       <span className='w-full px-2 rounded-lg text-white font-outline-1 hover:bg-highlight'>
-                        {group}
+                        {group.name}
                       </span>
-                      <button onClick={() => handleRemoveGroup(group)}>
+                      <button onClick={() => handleRemoveGroup(group.id)}>
                         <img className='w-6 h-6 hover:drop-shadow-secondary' src={wasteBin} alt="Delete Group" title='Deletar grupo' />
                       </button>
                     </li>

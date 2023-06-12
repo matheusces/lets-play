@@ -10,6 +10,7 @@ import DayMatchsPanel from './DayMatchsPanel';
 import CreateLeagueForm from './CreateLeagueForm';
 
 import PanelContext from '../contexts/PanelContext';
+import GroupPanel from './GroupPanel';
 
 type PanelOptions = 'calendar' | 'tournament' | 'league' | 'day' | 'group';
 
@@ -22,6 +23,8 @@ function Panel() {
   const [currentPanel, setCurrentPanel] = useState<PanelOptions>(panelOptions[0]);
 
   const { isDaySelected, setIsDaySelected } = useContext(PanelContext);
+  const { isGroupSelected, selectedGroupID, setIsGroupSelected } = useContext(PanelContext);
+
 
   const info = {
     'calendar': {
@@ -42,7 +45,7 @@ function Panel() {
     },
     'group': {
       title: 'Meus grupos',
-      component: <div>Grupos</div>
+      component: <GroupPanel groupID={selectedGroupID} />
     }
   }
 
@@ -67,12 +70,24 @@ function Panel() {
     console.log("1");
   }
 
+  useEffect(() => {
+    currentPanel !== 'day' && setIsDaySelected(false);
+    currentPanel !== 'group' && setIsGroupSelected(false);
+  }, [currentPanel]);
 
   useEffect(() => {
     if (isDaySelected) {
       setCurrentPanel('day');
     }
   }, [isDaySelected]);
+
+  useEffect(() => {
+    if (isGroupSelected) {
+      setCurrentPanel('group');
+    }
+  }, [isGroupSelected]);
+
+
 
   return (
     <div className="w-fit h-fit flex flex-col gap-2">
