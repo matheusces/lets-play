@@ -35,6 +35,13 @@ function Calendar() {
     getDaysOfTheMonth();
   }
 
+  function formatDate(day: number, month: number, year: number) {
+    const date = dayjs(`${year}-${month}-${day}`);
+
+    return date;
+  }
+
+
   useEffect(() => {
     handleChangeMonth(selectedMonth);
   }, [selectedMonth])
@@ -47,7 +54,7 @@ function Calendar() {
         <button className="hover:text-primary" onClick={handleChangeToNextMonth}>»</button>
       </div>
       <div className='grid grid-cols-8 grid-rows-4 gap-4 items-center justify-center'>
-        {daysOfMonth.map((day, index) => <Day key={index} day={day.toString()} />)}
+        {daysOfMonth.map((day, index) => <Day key={index} day={formatDate(day, months.indexOf(selectedMonth), dayjs().year())} />)}
       </div>
 
 
