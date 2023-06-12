@@ -3,26 +3,26 @@ import { useState, useEffect } from 'react';
 import Confirmation from './Confirmation';
 import Overlay from './Overlay';
 
-import { matchs } from "../utils/matchs"
 import { MatchProps } from "../types/type";
 
 import wasteBinIcon from '../assets/waste-bin.svg';
 import users from '../assets/users.svg';
 
-interface MatchListProps {
-  handleToggleMatchSelected: (match: MatchProps) => void,
+interface GroupMatchListProps {
+  matches: MatchProps[],
+  // handleToggleMatchSelected: (match: MatchProps) => void,
 }
 
-function MatchList({ handleToggleMatchSelected }: MatchListProps) {
+function GroupMatchList({ matches }: GroupMatchListProps) {
   const [isConfirmationWindowActive, setIsConfirmationWindowActive] = useState(false);
-  const [matches, setMatches] = useState<MatchProps[]>();
+  const [matchesList, setMatchesList] = useState<MatchProps[]>();
   const [isLoading, setIsLoading] = useState(true);
   const [matchIDToDelete, setMatchIDToDelete] = useState('');
 
   function handleRemoveMatch(matchID: string){
     const newMatchesList = matches?.filter(match => match.id !== matchID);
-    setMatches(newMatchesList);
-    matchs.splice(matchs.findIndex(match => match.id === matchID), 1);
+    setMatchesList(newMatchesList);
+    matchesList!.splice(matchesList!.findIndex(match => match.id === matchID), 1);
   }
 
   function handleDelete(id: string){
@@ -35,28 +35,28 @@ function MatchList({ handleToggleMatchSelected }: MatchListProps) {
   }
 
   useEffect(() => {
-    setMatches(matchs);
-    setIsLoading(false);
-  }, [matchs]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    setMatches(matchs);
+    setMatchesList(matches);
     setIsLoading(false);
   }, [matches]);
 
+  useEffect(() => {
+    setIsLoading(true);
+    setMatchesList(matches);
+    setIsLoading(false);
+  }, [matchesList]);
+
   return (
-    <div className="flex flex-col items-center gap-4 p-2 hide-scroll-bar overflow-scroll">
+    <div className="flex flex-col items-center gap-4 p-2 mt-7">
       {
         isLoading ? (
           <h1>Loading...</h1>
         ) : (
-          matchs.map((match, index) => (
-            <div className="flex gap-2">
-              <button key={index} className="w-[40rem] h-24 bg-panel-item rounded-lg flex items-center justify-between p-4 text-2xl text-white font-outline-1 gap-2 hover:drop-shadow-primary" onClick={() => handleToggleMatchSelected(match)}>
+          matchesList?.map((match, index) => (
+            <div key={match.id} className="flex gap-2">
+              <button key={index} className="w-[40rem] h-fit bg-panel-item rounded-lg flex items-center justify-between p-2 text-2xl text-white font-outline-1 gap-2 hover:drop-shadow-primary">
                 <div className="flex flex-col">
-                  <span className="text-3xl">{match.game}</span>
-                  <span className="w-72 text-primary overflow-ellipsis font-outline-0">{match.description}</span>
+                  <span className="text-xl">{match.game}</span>
+                  <span className="w-72 text-sm text-primary overflow-ellipsis font-outline-0">{match.description}</span>
                 </div>
   
                 <div className="flex items-center gap-4">
@@ -64,7 +64,7 @@ function MatchList({ handleToggleMatchSelected }: MatchListProps) {
                     <span>{match.participants.length}</span>
                     <img className="w-10 h-10" src={users} alt="estrutura de uma torneio" title="Tamanho do torneio" />
                   </div>
-                  <div className="flex flex-col items-center gap-1">
+                  <div className="flex flex-col text-base items-center gap-1">
                     <span>{match.time}</span>
                     <span>{match.date}</span>
                   </div>
@@ -77,16 +77,16 @@ function MatchList({ handleToggleMatchSelected }: MatchListProps) {
           ))
         )
       }
-       {
+      {
         isConfirmationWindowActive && (
           <>
             <Confirmation action="remover o jogo" onConfirm={() => handleRemoveMatch(matchIDToDelete)} toggleConfirmation={toggleConfirmationWindow} />
             <Overlay onClick={toggleConfirmationWindow} />
           </>
         )
-        }
+      }
     </div>
   )
 }
 
-export default MatchList
+export default GroupMatchList

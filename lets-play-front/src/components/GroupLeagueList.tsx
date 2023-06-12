@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 
 import Overlay from './Overlay';
 
-import { Leagues } from "../utils/Leagues";
 import { LeagueProps } from "../types/type";
 
 import trophyIcon from "../assets/trophy_grad.svg";
@@ -12,25 +11,24 @@ import wasteBinIcon from '../assets/waste-bin.svg';
 import Confirmation from './Confirmation';
 
 interface LeaguesListProps {
-  toggleIsLeagueSelected: () => void;
-  setSelectedLeagueID: React.Dispatch<React.SetStateAction<string>>;
+  leagues: LeagueProps[];
 }
 
-function LeaguesList({ toggleIsLeagueSelected, setSelectedLeagueID }: LeaguesListProps) {
+function GroupLeaguesList({ leagues }: LeaguesListProps) {
   const [leagueList, setLeagueList] = useState<LeagueProps[]>();
   const [isLoading, setIsLoading] = useState(true);
   const [isConfirmationWindowActive, setIsConfirmationWindowActive] = useState(false);
   const [leagueIDToDelete, setLeagueIDToDelete] = useState('');
 
-  function handleSelecLeague(leagueID: string){
-    toggleIsLeagueSelected();
-    setSelectedLeagueID(leagueID);
-  }
+  // function handleSelecLeague(leagueID: string){
+  //   toggleIsLeagueSelected();
+  //   setSelectedLeagueID(leagueID);
+  // }
 
   function handleRemoveLeague(leagueID: string){
     const newLeagueList = leagueList?.filter(league => league.id !== leagueID);
     setLeagueList(newLeagueList);
-    Leagues.splice(Leagues.findIndex(league => league.id === leagueID), 1);
+    leagues.splice(leagues.findIndex(league => league.id === leagueID), 1);
   }
 
   function handleDelete(id: string){
@@ -43,13 +41,13 @@ function LeaguesList({ toggleIsLeagueSelected, setSelectedLeagueID }: LeaguesLis
   }
 
   useEffect(() => {
-    setLeagueList(Leagues);
+    setLeagueList(leagues);
     setIsLoading(false);
-  }, [Leagues]);
+  }, [leagues]);
 
   useEffect(() => {
     setIsLoading(true);
-    setLeagueList(Leagues);
+    setLeagueList(leagues);
     setIsLoading(false);
   }, [leagueList]);
 
@@ -58,10 +56,10 @@ function LeaguesList({ toggleIsLeagueSelected, setSelectedLeagueID }: LeaguesLis
       { isLoading ? ( 
         <h1>Loading...</h1>
       ) : (
-          Leagues.map((league) => (
+          leagueList?.map((league) => (
             <>
-              <div className='flex gap-2'>
-                <button key={league.id} className="w-[40rem] h-16 bg-panel-item rounded-lg flex items-center justify-between p-4 text-xl text-white font-outline-1 gap-2 hover:drop-shadow-secondary" onClick={() => handleSelecLeague(league.id)}>
+              <div key={league.id} className='flex gap-2 pt-10'>
+                <button key={league.id} className="w-[40rem] h-16 bg-panel-item rounded-lg flex items-center justify-between p-4 text-xl text-white font-outline-1 gap-2 hover:drop-shadow-secondary">
                   <img className="w-10 h-10" src={trophyIcon} alt="Icone de um Troféu" />
                   <div className="flex flex-col">
                     <span>{league.title}</span>
@@ -97,4 +95,4 @@ function LeaguesList({ toggleIsLeagueSelected, setSelectedLeagueID }: LeaguesLis
   )
 }
 
-export default LeaguesList
+export default GroupLeaguesList

@@ -1,10 +1,12 @@
-import rightArrowBlue from '../assets/right-arrow-blue.svg'
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import axios from 'axios';
+
+import { GameProps } from '../types/type';
+
+import rightArrowBlue from '../assets/right-arrow-blue.svg'
 import AddVoiceChannel from './AddVoiceChannel';
 import InviteParticipantInput from './InviteParticipantInput';
 import ParticipantsList from './ParticipantsList';
-import { GameProps } from '../types/type';
 
 interface CreateMatchFormProps {
   toggleCreateMatchForm: (value: boolean) => void
