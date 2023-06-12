@@ -7,6 +7,7 @@ import rightArrowBlue from '../assets/right-arrow-blue.svg'
 import AddVoiceChannel from './AddVoiceChannel';
 import InviteParticipantInput from './InviteParticipantInput';
 import ParticipantsList from './ParticipantsList';
+import dayjs from 'dayjs';
 
 interface CreateMatchFormProps {
   toggleCreateMatchForm: (value: boolean) => void
@@ -66,7 +67,7 @@ function CreateMatchForm({ toggleCreateMatchForm }: CreateMatchFormProps) {
     const formData = {
       gameTitle: selectedGame,
       gameImage: selectedImage,
-      date: selectedDate,
+      date: dayjs(selectedDate).format('YYYY-MM-DD'),
       time: selectedTime,
       description: description,
       voiceChannel: voiceChannel,

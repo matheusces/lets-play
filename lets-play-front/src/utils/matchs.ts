@@ -2,7 +2,7 @@ export const matchs = [
   {
     id: '1',
     game: 'Counter Striker',
-    date: '24/04/2023',
+    date: '2023/04/24',
     time: '14:00',
     participants: ['eu', 'tu', 'ele', 'nós', 'vós', 'eles'],
     voiceChannel: 'https://discord.gg/123456',
