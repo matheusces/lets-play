@@ -1,16 +1,17 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 
+import { GameProps, LeagueProps } from '../types/type';
+
 import rightArrowBlue from '../assets/right-arrow-blue.svg';
 import noImage from '../assets/block.svg';
-import { GameProps, TournamentProps } from '../types/type';
 
-interface DropdownProps {
-  tournament: TournamentProps;
-  setTournament: React.Dispatch<React.SetStateAction<TournamentProps>>;
+interface LeagueDropdownProps {
+  league: LeagueProps;
+  setLeague: React.Dispatch<React.SetStateAction<LeagueProps>>;
 }
 
-function Dropdown({ tournament, setTournament }: DropdownProps) {
+function LeagueDropdown({ league, setLeague }: LeagueDropdownProps) {
   const [games, setGames] = useState([]);
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
   const [selectedGame, setSelectedGame] = useState<string>('');
@@ -22,8 +23,8 @@ function Dropdown({ tournament, setTournament }: DropdownProps) {
 
   function handleSelectGame(game: GameProps) {
     setSelectedGame(game.name);
-    setTournament({ ...tournament, game: game.name });
-    setTournament({...tournament, game_img: game.background_image})
+    setLeague({ ...league, game: game.name });
+    setLeague({...league, game_img: game.background_image})
     setSelectedImage(game.background_image);
     setIsDropdownActive(false);
   }
@@ -76,13 +77,9 @@ function Dropdown({ tournament, setTournament }: DropdownProps) {
             </ul>
           </div>
         )}
-        {/* {
-            selectedImage !== undefined &&
-          <img className='w-56 h-48 fixed z-0' src={selectedImage} alt="" />
-        } */}
       </div>          
     </div>
   )
 }
 
-export default Dropdown
+export default LeagueDropdown

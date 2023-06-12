@@ -1,0 +1,173 @@
+import { Match } from "@g-loot/react-tournament-brackets/dist/src/types";
+
+export const size8: Match[] =  [
+  {
+    id: 'Round 1 - Match 1',
+    name: 'Round 1 - Match 1',
+    nextMatchId: 'Semi Final 1',
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '1',
+    startTime: 'Date Time',
+    state: 'DONE',
+    participants: [
+      {
+        id: '1',
+        resultText: null,
+        isWinner: false,
+        status: 'DONE',
+        name: 'TBD',
+      },
+      {
+        id: '2',
+        resultText: null,
+        isWinner: false,
+        status: 'DONE',
+        name: 'TBD',
+      },
+    ],
+  },
+  {
+    id: 'Round 1 - Match 2',
+    name: 'Round 1 - Match 2',
+    nextMatchId: 'Semi Final 1',
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '1',
+    startTime: 'Date Time',
+    state: 'DONE',
+    participants: [
+      {
+        id: '3',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'TBD',
+      },
+      {
+        id: '4',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'TBD',
+      },
+    ],
+  },
+  {
+    id: 'Round 1 - Match 3',
+    name: 'Round 1 - Match 3',
+    nextMatchId: 'Semi Final 2',
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '1',
+    startTime: 'Date Time',
+    state: 'DONE',
+    participants: [
+      {
+        id: '5',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'TBD',
+      },
+      {
+        id: '6',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'TBD',
+      },
+    ],
+  },
+  {
+    id: 'Round 1 - Match 4',
+    name: 'Round 1 - Match 4',
+    nextMatchId: 'Semi Final 2',
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '1',
+    startTime: 'Date Time',
+    state: 'DONE',
+    participants: [
+      {
+        id: '7',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'TBD',
+      },
+      {
+        id: '8',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'TBD',
+      },
+    ],
+  },
+  {
+    id: 'Semi Final 1',
+    name: 'Semi Final 1',
+    nextMatchId: 'Final - Match',
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '2',
+    startTime: 'Date Time',
+    state: 'DONE',
+    participants: [
+      {
+        id: 'SF1-1',
+        resultText: null,
+        isWinner: false,
+        status: 'DONE',
+        name: 'TBD',
+      },
+      {
+        id: 'SF1-2',
+        resultText: null,
+        isWinner: false,
+        status: 'DONE',
+        name: 'TBD',
+      },
+    ],
+  },
+  {
+    id: 'Semi Final 2',
+    name: 'Semi Final 2',
+    nextMatchId: 'Final - Match',
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '2',
+    startTime: 'Date Time',
+    state: 'DONE',
+    participants: [
+      {
+        id: 'SF2-1',
+        resultText: null,
+        isWinner: false,
+        status: 'DONE',
+        name: 'TBD',
+      },
+      {
+        id: 'SF2-2',
+        resultText: null,
+        isWinner: false,
+        status: 'DONE',
+        name: 'TBD',
+      },
+    ],
+  },
+  {
+    id: 'Final - Match',
+    name: 'Final - Match',
+    nextMatchId: null,
+    nextLooserMatchId: undefined,
+    tournamentRoundText: '3',
+    startTime: 'Date Time',
+    state: 'DONE',
+    participants: [
+      {
+        id: 'Final',
+        resultText: null,
+        isWinner: false,
+        status: null,
+        name: 'TBD',
+      }
+    ],
+  },
+];
+

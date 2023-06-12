@@ -4,18 +4,10 @@ import axios from 'axios';
 import AddVoiceChannel from './AddVoiceChannel';
 import InviteParticipantInput from './InviteParticipantInput';
 import ParticipantsList from './ParticipantsList';
+import { GameProps } from '../types/type';
 
 interface CreateMatchFormProps {
   toggleCreateMatchForm: (value: boolean) => void
-}
-
-interface GameProps {
-  "id": number,
-  "slug": string,
-  "name": string,
-  "background_image": string,
-  "rating": number,
-  "suggestions_count": number,
 }
 
 function CreateMatchForm({ toggleCreateMatchForm }: CreateMatchFormProps) {
@@ -105,9 +97,15 @@ function CreateMatchForm({ toggleCreateMatchForm }: CreateMatchFormProps) {
     fetchGames();
   }, [selectedGame]);
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLFormElement>) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  }
+
   return (
     <>
-      <form onSubmit={handleSubmitForm} className='w-[42rem] h-[35rem] bg-form absolute z-10 left-1/4 z-1 flex flex-col gap-2 text-secondary items-center text-3xl px-6 py-4'>
+      <form onKeyDown={handleKeyDown} onSubmit={handleSubmitForm} className='w-[42rem] h-[35rem] bg-form absolute z-10 left-1/4 z-1 flex flex-col gap-2 text-secondary items-center text-3xl px-6 py-4'>
         <div className='w-full flex justify-between px-6'>
           <label className='self-end'>Jogo</label>
           <div className='flex gap-5'>
@@ -157,8 +155,8 @@ function CreateMatchForm({ toggleCreateMatchForm }: CreateMatchFormProps) {
         </div>
 
         <div className='flex gap-20 mt-8'>
-          <button type='submit' className='bg-primary text-white p-2 rounded-lg'>Confirmar</button>
-          <button type='button' className='bg-white text-primary p-2 rounded-lg' onClick={() => toggleCreateMatchForm(false)}>Cancelar</button>
+          <button type='submit' className='bg-primary text-white p-2 rounded-lg hover:drop-shadow-secondary'>Confirmar</button>
+          <button type='button' className='bg-white text-primary p-2 rounded-lg hover:drop-shadow-secondary' onClick={() => toggleCreateMatchForm(false)}>Cancelar</button>
         </div>
       </form>
     </>

@@ -26,7 +26,7 @@ function AddVoiceChannel({ voiceChannel, setVoiceChannel }:VoiceChannelProps) {
 
   return (
     <>
-      <button type='button' onClick={toggleVoiceChannelInput} title="Adicionar um canal de voz">
+      <button type='button' className="hover:drop-shadow-secondary" onClick={toggleVoiceChannelInput} title="Adicionar um canal de voz">
         <img className='w-12 h-12' src={voiceChannelIcon} alt="Microphone with a chat balloon icon" />
       </button>
       {isVoiceChannelInputActive && (
@@ -35,8 +35,8 @@ function AddVoiceChannel({ voiceChannel, setVoiceChannel }:VoiceChannelProps) {
             <label htmlFor="">Link para a call</label>
             <input className="bg-input rounded-lg p-1.5" type="text" value={voiceChannel} onChange={handleInputChange} />
             <div className='flex gap-2'>
-              <button className='bg-primary text-white rounded-lg p-1 text-lg' type='button' onClick={toggleVoiceChannelInput}>Confirmar</button>
-              <button className='bg-white text-primary rounded-lg p-1 text-lg' type='button' onClick={clearInput}>cancelar</button>
+              <button className='bg-primary text-white rounded-lg p-1 text-lg hover:drop-shadow-secondary' type='button' onClick={toggleVoiceChannelInput}>Confirmar</button>
+              <button className='bg-white text-primary rounded-lg p-1 text-lg hover:drop-shadow-secondary' type='button' onClick={clearInput}>cancelar</button>
             </div>
           </div>
           <Overlay onClick={toggleVoiceChannelInput}/>

@@ -1,16 +1,10 @@
 import { FormEvent, useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 
-import TournamentParticipantsManager from './TournamentParticipantsManager';
 import Overlay from './Overlay';
 
-import { GameProps, ParticipantProps, TeamInfoProps } from '../types/type';
-import { Match } from '@g-loot/react-tournament-brackets/dist/src/types';
-import { Tournaments } from '../utils/Tournaments';
-import { size2 } from '../utils/TournamentSizeTemplates/size2';
-import { size4 } from '../utils/TournamentSizeTemplates/size4';
-import { size8 } from '../utils/TournamentSizeTemplates/size8';
-import { size16 } from '../utils/TournamentSizeTemplates/size16';
+import { Leagues } from '../utils/Leagues';
+import { GameProps, ParticipantProps } from '../types/type';
 
 import rightArrowBlue from '../assets/right-arrow-blue.svg';
 import offlineIcon from '../assets/offline-icon.svg';
@@ -19,28 +13,22 @@ import wasteBinIcon from '../assets/waste-bin.svg';
 import noImage from '../assets/block.svg';
 import hourglassIcon from '../assets/hourglass.gif';
 
+
 interface createTournamentFormProps {
-  toggleCreateTournamentForm: () => void;
+  toggleCreateLeagueForm: () => void;
 }
 
-function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFormProps) {
+function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps) {
   const [games, setGames] = useState([]);
   const [selectedGame, setSelectedGame] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
   const [title, setTitle] = useState('');
   const [participant, setParticipant] = useState<ParticipantProps>({name : '', team: 'Time 1'});
   const [participants, setParticipants] = useState<ParticipantProps[]>([]);
-  const [tournamentSize, setTournamentSize] = useState(2);
+  const [leagueSize, setLeagueSize] = useState(1);
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const [isParticipantsManagerActive, setIsParticipantsManagerActive] = useState(false);
   const [isSoloChecked, setIsSoloChecked] = useState(false);
-
-  const sizes: { [size: number] : Match[] } = {
-    2: size2,
-    4: size4,
-    8: size8,
-    16: size16,
-  }
 
   function handleToggleDropdown() {
     setIsDropdownActive(!isDropdownActive);
@@ -56,24 +44,20 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
     setIsDropdownActive(false);
   }
 
-  function groupParticipantsByTeam(participants: ParticipantProps[]): TeamInfoProps[] {
-    const teams: TeamInfoProps[] = [];
+  function groupParticipantsByTeam(participants: ParticipantProps[]): { [team: string]: string[] } {
+    const groupedParticipants: { [team: string]: string[] } = {};
   
-    participants.forEach((participant) => {
-      const existingTeam = teams.find((team) => team.name === participant.team);
+    participants.forEach(participant => {
+      const { name, team } = participant;
   
-      if (existingTeam) {
-        existingTeam.players.push(participant.name);
+      if (groupedParticipants[team]) {
+        groupedParticipants[team].push(name);
       } else {
-        teams.push({
-          id: teams.length + 1,
-          name: participant.team,
-          players: [participant.name],
-        });
+        groupedParticipants[team] = [name];
       }
     });
   
-    return teams;
+    return groupedParticipants;
   }
 
   function clearForm() {
@@ -85,21 +69,21 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
       team: 'Time 1'
     });
     setParticipants([]);
-    setTournamentSize(2);
+    setLeagueSize(2);
   }
 
   function handleGameChange(e: ChangeEvent<HTMLInputElement>) {
     setSelectedGame(e.target.value);
     setIsDropdownActive(true);
-  };
+  }
 
   function handleChangeTitle(e: ChangeEvent<HTMLInputElement>) {
     setTitle(e.target.value);
   }
 
-  function handleChangeTournamentSize(event: ChangeEvent<HTMLSelectElement>) {
-    setTournamentSize(Number(event.target.value));
-  }
+  // function handleChangeLeagueSize(event: ChangeEvent<HTMLInputElement>) {
+  //   setLeagueSize(Number(event.target.value));
+  // }
 
   function handleAddParticipant() {
     setParticipants([...participants, participant]);
@@ -107,6 +91,7 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
       name: '',
       team: 'Time 1'
     });
+
   }
 
   function handleChangeParticipantName(e: ChangeEvent<HTMLInputElement>) {
@@ -120,6 +105,73 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
     setParticipants(prevParticipants => prevParticipants.filter(participant => participant.name !== user));
   }
   
+  function handleToggleCreateLeagueForm() {
+    toggleCreateLeagueForm();
+  }
+
+  function handleSoloCheckChange(event: ChangeEvent<HTMLInputElement>) {
+    setIsSoloChecked(event.target.checked);
+    updateTeams();
+  }
+
+  function handleChangeTeam(team: string, participantIndex: number, ) {
+    const updatedParticipant = {
+      name: participants[participantIndex].name,
+      team,
+    };
+
+    setParticipants(prevParticipants => {
+      
+      const updatedParticipants = [...prevParticipants];
+      updatedParticipants[participantIndex] = updatedParticipant;
+      return updatedParticipants;
+    });
+  }
+
+  function clearTeams() {
+    const updatedParticipants = Array(participants.length);
+    participants.map((participant, index) => updatedParticipants[index] = {...participant, team: 'Time 1'});
+    setParticipants(updatedParticipants);
+  }
+
+  function updateTeams(){
+    if(isSoloChecked === true){
+      clearTeams();
+    } 
+    else {
+      const updatedParticipants = Array(participants.length);
+      participants.map((participant, index) => updatedParticipants[index] = {...participant, team: 'Time '+(index+1)});
+      setParticipants(updatedParticipants);
+    }
+  }
+
+  function handleSubmitForm(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const formData = {
+      id: Leagues.length + 1,
+      title,
+      game_img: selectedImage,
+      game: selectedGame,
+      participants,
+      leagueSize,
+      teams: groupParticipantsByTeam(participants),
+    }
+
+    console.log(formData);
+
+    Leagues.push(formData);
+
+    clearForm();
+    toggleCreateLeagueForm();
+  }
+
+  function handleDone() {
+    handleToggleParticipantsManager();
+    // console.log(participants);
+    // console.log(isSoloChecked);
+  }
+
   function handleKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter') {
       handleAddParticipant();
@@ -130,32 +182,6 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
     if (event.key === 'Enter') {
       event.preventDefault();
     }
-  }
-
-  function handleToggleCreateTournamentForm() {
-    toggleCreateTournamentForm();
-  }
-
-  function handleSubmitForm(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const formData = {
-      id: Tournaments.length + 1,
-      title,
-      game_img: selectedImage,
-      game: selectedGame,
-      participants,
-      tournamentSize,
-      teams: groupParticipantsByTeam(participants),
-      matches: sizes[tournamentSize],
-    }
-
-    console.log(formData);
-
-    Tournaments.push(formData);
-
-    clearForm();
-    toggleCreateTournamentForm();
   }
 
   useEffect(() => {
@@ -177,16 +203,15 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
     fetchGames();
   }, [selectedGame]);
 
+
   useEffect(() => {
-    const size = participants.length % 2 === 0 ? participants.length : participants.length + 1;
-    setTournamentSize(size);
-    
-  }, [isSoloChecked]);
+    const numberOfTeams = Object.keys(groupParticipantsByTeam(participants)).length;
+    numberOfTeams === 0 || numberOfTeams === 1 ? setLeagueSize(participants.length) : setLeagueSize(numberOfTeams);
+  }, [participants, isSoloChecked]);
 
   return (
-    <form onKeyDown={handleKeyForm} onSubmit={handleSubmitForm} className='w-[42rem] h-[35rem] bg-form absolute z-10 left-1/4 z-1 flex flex-col gap-4 text-secondary items-center text-3xl px-12 py-5'>
-      <h1>Criar Torneio</h1>
-      
+    <form onKeyDown={handleKeyForm} onSubmit={handleSubmitForm} className='w-[42rem] h-[35rem] bg-form absolute z-10 left-1/4 z-1 flex flex-col gap-3 text-secondary items-center text-3xl px-12 py-5'>
+      <h1>Criar Liga</h1>
       <button type='button' onClick={handleToggleDropdown} className='w-[35rem] h-28 flex justify-between items-center bg-input text-white text-center rounded-lg font-outline-1 border focus-within:border-secondary'>
         <img src={selectedImage === undefined ? noImage : selectedImage} className='w-28 h-28 bg-img border border-secondary rounded-lg'/>
         <input className='w-96 text-center p-2 bg-input text-ellipsis focus:outline-0' placeholder='Selecione o jogo' onChange={handleGameChange} value={selectedGame} />
@@ -216,20 +241,14 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
 
       <div className='w-full h-full flex justify-between gap-2'>
         <div className='h-full flex flex-col gap-7'>
-          <div>
+          <div className='flex flex-col'>
             <label className='self-start' htmlFor="">Tamanho</label>
-            <select disabled={isSoloChecked} className='w-40 h-10 self-start rounded-lg bg-input p-2 text-secondary text-2xl focus:border-secondary' name="size" value={tournamentSize} onChange={handleChangeTournamentSize}>
-              <option className='rounded-xl' value="2">2</option>
-              <option className='rounded-xl' value="4">4</option>
-              <option className='rounded-xl' value="8">8</option>
-              <option className='rounded-xl' value="16">16</option>
-              {/* <option className='rounded-xl' value="32">32</option> */}
-            </select>
+            <input disabled className='w-40 h-10 self-start rounded-lg bg-input p-2 text-secondary text-2xl focus:border-secondary' value={leagueSize} />
           </div>
 
           <div className='w-fit flex flex-col gap-2 px-4'>
             <button className='w-36 h-14 bg-primary p-2 text-base text-white rounded-lg hover:drop-shadow-secondary' type='submit'>Confirmar</button>
-            <button className='w-36 h-14 bg-white p-2 text-base text-primary rounded-lg hover:drop-shadow-secondary' type='button' onClick={handleToggleCreateTournamentForm}>Cancelar</button>
+            <button className='w-36 h-14 bg-white p-2 text-base text-primary rounded-lg hover:drop-shadow-secondary' type='button' onClick={handleToggleCreateLeagueForm}>Cancelar</button>
           </div>
         </div>
 
@@ -244,7 +263,6 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
           <div className='w-80 h-40 max-h-40 overflow-scroll hide-scroll-bar flex flex-col mt-4 rounded-lg bg-input p-2 text-secondary text-2xl focus:border-secondary'>
             {participants.map((user, index) => (
               <div className='w-full flex flex-row items-center justify-between gap-2' key={index}>
-                
                 <button className='w-full flex flex-row items-center gap-2 hover:drop-shadow-secondary hover:cursor-pointer' type='button' onClick={handleToggleParticipantsManager}>
                   <img className='p-1 w-10 h-10' src={hourglassIcon} alt="ampulheta" title='aceitação pendente' />
                   <span>
@@ -263,13 +281,46 @@ function CreateTournamentForm({ toggleCreateTournamentForm }: createTournamentFo
 
         {isParticipantsManagerActive && (
           <>
-            <TournamentParticipantsManager participants={participants} setParticipants={setParticipants} isSoloChecked={isSoloChecked} setIsSoloChecked={setIsSoloChecked} tournamentSize={tournamentSize} handleChangeTournamentSize={handleChangeTournamentSize} handleToggleParticipantsManager={handleToggleParticipantsManager} />
+            <div className="w-[42rem] h-[35rem] max-h-[35rem] flex flex-col absolute left-0 bottom-0 bg-form p-6 z-10">
+            <h1 className='w-full flex justify-center pt-2 pb-4'>Gerencie os participantes</h1>
+            
+            <div className="flex flex-col">
+
+              <div className="flex gap-4 text-primary mb-8">
+                <span>Quantidade de times</span>
+                <span className='rounded-md'>{leagueSize}</span>
+
+                <label htmlFor="">Solo</label>
+                <input type="checkbox" name="solo" id="solo" checked={isSoloChecked} onChange={handleSoloCheckChange} />
+              </div>
+
+              <div className='max-h-72 border border-primary p-2 overflow-scroll hide-scroll-bar'>
+                {participants.map((participant, participantIndex) => (
+                  <div key={participantIndex} className="grid grid-cols-2 p-1 rounded-lg items-center hover:bg-highlight hover:drop-shadow-primary">
+                    <span>{participant.name}</span>
+                    <select className='w-86 h-10 self-start rounded-lg bg-input p-2 text-secondary text-2xl focus:border-secondary' value={participant.team} onChange={(e) => handleChangeTeam(e.target.value, participantIndex)} name="team" id="team" disabled={isSoloChecked}>
+                      {
+                        [...Array(participants.length)].map((_, index) => (
+                          <option className="w-24 h-10" key={index} value={'Time ' + (index+1)}>{isSoloChecked ? 'Time ' + (participantIndex+1) : 'Time '+(index+1)}</option>
+                          ))
+                      }
+                    </select>
+                  </div>
+                ))}
+              </div>
+
+              <button className='w-fit h-fit self-center mt-10 p-2 rounded-xl text-white bg-primary' type='button' onClick={handleDone}>Feito</button>
+
+            </div>
+          </div>
             <Overlay onClick={handleToggleParticipantsManager} />
           </>
+
         )}
+
       </div>
     </form>
   )
 }
 
-export default CreateTournamentForm;
+export default CreateLeagueForm;
