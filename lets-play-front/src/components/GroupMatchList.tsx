@@ -10,10 +10,10 @@ import users from '../assets/users.svg';
 
 interface GroupMatchListProps {
   matches: MatchProps[],
-  // handleToggleMatchSelected: (match: MatchProps) => void,
+  handleToggleMatchSelected: (match: MatchProps) => void,
 }
 
-function GroupMatchList({ matches }: GroupMatchListProps) {
+function GroupMatchList({ matches, handleToggleMatchSelected }: GroupMatchListProps) {
   const [isConfirmationWindowActive, setIsConfirmationWindowActive] = useState(false);
   const [matchesList, setMatchesList] = useState<MatchProps[]>();
   const [isLoading, setIsLoading] = useState(true);
@@ -53,7 +53,7 @@ function GroupMatchList({ matches }: GroupMatchListProps) {
         ) : (
           matchesList?.map((match, index) => (
             <div key={match.id} className="flex gap-2">
-              <button key={index} className="w-[40rem] h-fit bg-panel-item rounded-lg flex items-center justify-between p-2 text-2xl text-white font-outline-1 gap-2 hover:drop-shadow-primary">
+              <button key={index} className="w-[40rem] h-fit bg-panel-item rounded-lg flex items-center justify-between p-2 text-2xl text-white font-outline-1 gap-2 hover:drop-shadow-primary" onClick={() => handleToggleMatchSelected(match)}>
                 <div className="flex flex-col">
                   <span className="text-xl">{match.game}</span>
                   <span className="w-72 text-sm text-primary overflow-ellipsis font-outline-0">{match.description}</span>

@@ -1,6 +1,7 @@
 import pencil from '../assets/pencil.svg';
 import PerfilPhoto from '../assets/PerfilPhoto.svg';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
+import UserContext from '../contexts/UserContext';
 
 interface ConfigPanelProps {
   toggleConfigPanel: () => void;
@@ -11,7 +12,9 @@ function ConfigPanel({ toggleConfigPanel }: ConfigPanelProps) {
   const [isEditEmailActive, setIsEditEmailActive] = useState(false);
   const [isEditPasswordActive, setIsEditPasswordActive] = useState(false);
 
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | undefined>(PerfilPhoto);
+
+  const { userImg, setUserImg } = useContext(UserContext);
 
   function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -31,14 +34,19 @@ function ConfigPanel({ toggleConfigPanel }: ConfigPanelProps) {
     setIsEditPasswordActive(!isEditPasswordActive);
   }
 
+  function handleSave() {
+    setUserImg(selectedImage || '');
+    toggleConfigPanel();
+  }
+
   return (
     <div className='w-[30rem] h-[25rem] absolute left-[36%] top-[15%] flex flex-col gap-2 bg-input-panel border border-highlight text-secondary p-2 pt-6 rounded-md items-center overflow-scroll hide-scroll-bar z-10'>
       
       <div className='flex flex-col gap-2 items-center'> 
         <div className='w-28 h-28 rounded-full bg-bdr-purple flex items-center justify-center overflow-hidden'>
-          <img title='alterar imagem' className='rounded-full hover:drop-shadow-img' src={selectedImage ? selectedImage : PerfilPhoto} alt="foto de perfil" />
+          <img title='alterar imagem' className='w-full h-full rounded-full hover:drop-shadow-img' src={userImg.length > 0 ? userImg : selectedImage} alt="foto de perfil" />
         </div>
-        <input className='flex bg-primary w-56 text-xs items-center h-5 rounded-lg hover:cursor-pointer' type="file" onChange={handleImageUpload} accept="image/*" />
+        <input className='flex bg-primary text-white w-56 text-xs items-center h-5 rounded-lg hover:cursor-pointer' type="file" onChange={handleImageUpload} accept="image/*" />
 
         <div className='flex gap-1 items-center'>
          {isEditNick ? (
@@ -88,7 +96,7 @@ function ConfigPanel({ toggleConfigPanel }: ConfigPanelProps) {
           ) : (
             <>
               <button className='rounded-md p-2 bg-primary text-white hover:drop-shadow-primary' onClick={toggleEditPassword}>Mudar senha</button>
-              <button className='rounded-md p-2 bg-primary text-white hover:drop-shadow-primary' onClick={() => toggleConfigPanel()}>Salvar</button>
+              <button className='rounded-md p-2 bg-primary text-white hover:drop-shadow-primary' onClick={handleSave}>Salvar</button>
             </>
           )}
         </div>

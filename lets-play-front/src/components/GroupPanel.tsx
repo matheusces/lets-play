@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { GroupProps } from "../types/type";
+import { GroupProps, LeagueProps, MatchProps, TournamentProps } from "../types/type";
 import { groups } from '../utils/Groups';
 
 import GroupLeaguesList from './GroupLeagueList';
@@ -12,6 +12,9 @@ import participantsIcon from '../assets/participants.svg';
 import closeIcon from '../assets/cross-mark.svg';
 import hourglassIcon from '../assets/hourglass.gif';
 import wasteBinIcon from '../assets/waste-bin.svg';
+import Match from './Match';
+import League from './League';
+import Tournament from './Tournament';
 
 
 interface GroupPanelProps {
@@ -26,16 +29,72 @@ function GroupPanel({ groupID }: GroupPanelProps) {
   const [isParticipantsLoading, setIsParticipantsLoading] = useState(false);
   const [isParticipantsListActive, setIsParticipantsListActive] = useState(false);
 
+  const [isMatchSelected, setIsMatchSelected] = useState(false);
+  const [isLeagueSelected, setIsLeagueSelected] = useState(false);
+  const [isTournamentSelected, setIsTournamentSelected] = useState(false);
+
+  const [match, setMatch] = useState<MatchProps>();
+  const [league, setLeague] = useState<string>();
+  const [tournament, setTournament] = useState<string>();
+
+  const [selectedElement, setSelectedElement] = useState<string | null>(null);
+
+
+  const elementSelected = {
+    'match': {
+      component: <Match match={match!}  handleToggleMatchList={handleToggleMatchList}/>
+    },
+    'league': {
+      component: <League leagueID={league!} toggleIsLeagueSelected={handleToggleLeagueList}/>
+    },
+    'tournament': {
+      component: <Tournament tournamentID={tournament!} toggleIsTournamentSelected={handleToggleTournamentList}/>
+    }
+  }
+
+  function handleToggleMatchList() {
+    setIsMatchSelected(!isMatchSelected);
+    isMatchSelected ? setSelectedElement(null) : setSelectedElement('match');
+  }
+
+  function handleToggleLeagueList() {
+    setIsLeagueSelected(!isLeagueSelected);
+    isLeagueSelected ? setSelectedElement(null) : setSelectedElement('league');
+  }
+
+  function handleToggleTournamentList() {
+    setIsTournamentSelected(!isTournamentSelected);
+    isTournamentSelected ? setSelectedElement(null) : setSelectedElement('tournament');
+  }
+
+  function handleSelectMatch(match: MatchProps){
+    setMatch(match);
+    handleToggleMatchList();
+  }
+
+  function handleSelectLeague(league: string){
+    setLeague(league);
+    handleToggleLeagueList();
+  }
+
+  function handleSelectTournament(tournament: string){
+    setTournament(tournament);
+    handleToggleTournamentList();
+  }
+
   function handleSelectMatchTab(){
     setTabSelected('matches');
+    setSelectedElement(null);
   }
 
   function handleSelectLeagueTab(){
     setTabSelected('leagues');
+    setSelectedElement(null);
   }
 
   function handleSelectTournamentTab(){
     setTabSelected('tournaments');
+    setSelectedElement(null);
   }
 
   function toggleParticipantsList() {
@@ -124,23 +183,26 @@ function GroupPanel({ groupID }: GroupPanelProps) {
             isLoading ? (
               <h1>Loading...</h1>
             ) : (
-              <div>
-                { tabSelected === 'matches' &&(
-                    <GroupMatchList matches={group!.matches} />
-                  )
-                }
-                {
-                  tabSelected === 'leagues' && (
-                    <GroupLeaguesList leagues={group!.leagues} />
-                  )
-                }
-                {
-                  tabSelected === 'tournaments' && (
-                    <GroupTournamentsList tournaments={group!.tournaments} />
-                  )
-                }
-                
-              </div>
+              selectedElement ? (
+                elementSelected[selectedElement]?.component
+              ) : (
+                <div>
+                  { tabSelected === 'matches' &&(
+                      <GroupMatchList matches={group!.matches} handleToggleMatchSelected={handleSelectMatch} />
+                    )
+                  }
+                  {
+                    tabSelected === 'leagues' && (
+                      <GroupLeaguesList leagues={group!.leagues} handleSelectLeague={handleSelectLeague} />
+                    )
+                  }
+                  {
+                    tabSelected === 'tournaments' && (
+                      <GroupTournamentsList tournaments={group!.tournaments} handleSelectTournament={handleSelectTournament} />
+                    )
+                  }
+                </div>
+              )
             )
           }
           {isParticipantsListActive && (

@@ -7,11 +7,12 @@ interface UserContextProviderProps {
 
 function UserContextProvider({ children }: UserContextProviderProps) {
   const [isUserLogged, setIsUserLogged] = useState(false);
+  const [userId, setUserId] = useState('');
   const [userNickname, setUserNickname] = useState('');
   const [userImg, setUserImg] = useState('');
 
   return (
-    <UserContext.Provider value={{ isUserLogged, setIsUserLogged, userNickname, setUserNickname, userImg, setUserImg }}>
+    <UserContext.Provider value={{ isUserLogged, setIsUserLogged, userId, setUserId, userNickname, setUserNickname, userImg, setUserImg }}>
       {children}
     </UserContext.Provider>
   )

@@ -12,9 +12,10 @@ import Confirmation from './Confirmation';
 
 interface LeaguesListProps {
   leagues: LeagueProps[];
+  handleSelectLeague: (leagueId: string) => void;
 }
 
-function GroupLeaguesList({ leagues }: LeaguesListProps) {
+function GroupLeaguesList({ leagues, handleSelectLeague }: LeaguesListProps) {
   const [leagueList, setLeagueList] = useState<LeagueProps[]>();
   const [isLoading, setIsLoading] = useState(true);
   const [isConfirmationWindowActive, setIsConfirmationWindowActive] = useState(false);
@@ -59,7 +60,7 @@ function GroupLeaguesList({ leagues }: LeaguesListProps) {
           leagueList?.map((league) => (
             <>
               <div key={league.id} className='flex gap-2 pt-10'>
-                <button key={league.id} className="w-[40rem] h-16 bg-panel-item rounded-lg flex items-center justify-between p-4 text-xl text-white font-outline-1 gap-2 hover:drop-shadow-secondary">
+                <button key={league.id} className="w-[40rem] h-16 bg-panel-item rounded-lg flex items-center justify-between p-4 text-xl text-white font-outline-1 gap-2 hover:drop-shadow-secondary" onClick={() => handleSelectLeague(league.id)}>
                   <img className="w-10 h-10" src={trophyIcon} alt="Icone de um Troféu" />
                   <div className="flex flex-col">
                     <span>{league.title}</span>

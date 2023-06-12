@@ -3,6 +3,8 @@ import React from 'react';
 interface UserContextProps {
   isUserLogged: boolean;
   setIsUserLogged: React.Dispatch<React.SetStateAction<boolean>>;
+  userId: string;
+  setUserId: React.Dispatch<React.SetStateAction<string>>;
   userNickname: string;
   setUserNickname: React.Dispatch<React.SetStateAction<string>>;
   userImg: string;
@@ -12,6 +14,8 @@ interface UserContextProps {
 const UserContext =  React.createContext<UserContextProps>({
   isUserLogged: false,
   setIsUserLogged: () => {},
+  userId: '',
+  setUserId: () => {},
   userNickname: '',
   setUserNickname: () => {},
   userImg: '',
