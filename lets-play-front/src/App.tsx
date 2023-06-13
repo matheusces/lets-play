@@ -3,6 +3,8 @@ import Sidebar from './components/Sidebar';
 import Logo from './components/Logo';
 import PanelContextProvider from './components/PanelContextProvider';
 import UserContextProvider from './components/UserContextProvider';
+import { Toaster } from 'react-hot-toast';
+import Notifications from './components/Notification/Notifications';
 
 function App() {
 
@@ -15,6 +17,9 @@ function App() {
           <PanelContextProvider>
             <Panel />
             <Sidebar />
+            <Toaster />
+
+            <Notifications />
           </PanelContextProvider>
         </UserContextProvider>
       </div>

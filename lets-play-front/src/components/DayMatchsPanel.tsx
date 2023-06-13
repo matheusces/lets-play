@@ -21,10 +21,6 @@ function DayMatchsPanel() {
     setIsMatchSelected(!isMatchSelected);
   }
 
-  useEffect(() => {
-    console.log(selectedDay)
-  }, [])
-
   return (
     <>
       <div className="w-[60rem] h-[36rem] bg-panel flex flex-col items-center gap-4 pt-8 hide-scroll-bar ">
