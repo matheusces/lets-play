@@ -28,6 +28,7 @@ function Sidebar() {
   const [isNotificationPanelActive, setIsNotificationPanelActive] = useState(false);
   const [isConfigPanelActive, setIsConfigPanelActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [notificationsList, setNotificationsList] = useState([]);
 
   const [groupsList, setGroupsList] = useState<GroupProps[]>([]);
   const [friends, setFriends] = useState<string[]>([]);
@@ -95,7 +96,6 @@ function Sidebar() {
     isUserLogged === false && setUserNickname(generateRandomNickname()); 
 
     setTimeout(() => {
-      console.log('userName: ', userNickname);
     }, 1000);
   }, []);
 
@@ -107,8 +107,15 @@ function Sidebar() {
         </button>
         <span className="text-white text-sm font-outline-1 text-center">{userNickname}</span>
         <div className="flex items-center justify-evenly">
-          <button onClick={toggleNotificationPanel}>
+          <button className='relative' onClick={toggleNotificationPanel}>
             <img className='hover:drop-shadow-secondary' src={notificationBell} alt="notification bell icon" title='notifications' />
+            {
+              notificationsList.length > 0 && (
+                <div className='wh-5 h-5 text-xs flex absolute top-[-10%] right-[-15%] p-2 items-center justify-center text-white bg-red-600 rounded-full'>
+                  1
+                </div>
+              )
+            }
           </button>
           <button onClick={toggleConfigPanel}>
             <img className='hover:drop-shadow-secondary' src={gear} alt="gear icon for config button" title='configurations' />

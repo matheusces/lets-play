@@ -47,8 +47,8 @@ export const matchs = [
   {
     id: '6',
     game: 'Counter Striker',
-    date: '2023/04/24',
-    time: '14:00',
+    date: '2023-06-13',
+    time: '17:00',
     participants: ['eu', 'tu', 'ele', 'nós', 'vós', 'eles'],
     voiceChannel: 'https://discord.gg/123456',
     description: 'Lorem ipsum dolor sit a',
@@ -56,8 +56,8 @@ export const matchs = [
   {
     id: '7',
     game: 'Counter Striker',
-    date: '2023/04/24',
-    time: '14:00',
+    date: '2023-06-13',
+    time: '14:37',
     participants: ['eu', 'tu', 'ele', 'nós', 'vós', 'eles'],
     voiceChannel: 'https://discord.gg/123456',
     description: 'Lorem ipsum dolor sit a',
