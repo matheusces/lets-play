@@ -64,7 +64,7 @@ function FriendManager({ friends, setFriends, toggleFriendManager }: FriendManag
                 </form>
               )}
               <button className="w-16 h-16 flex p-2 self-end text-white hover:text-primary hover:drop-shadow-secondary" type='button' onClick={toggleAddUserField}>
-                <img className={isAddUserFieldActive ? 'drop-shadow-secondary' : ''} src={invite} alt="Pessoa com simbolo de mais" title='Criar um grupo' />
+                <img className={isAddUserFieldActive ? 'drop-shadow-secondary' : ''} src={invite} alt="Pessoa com simbolo de mais" title='Adcionar amigo' />
               </button>
             </div>
             <h2 className="text-lg text-secondary">Meus Amigos</h2>

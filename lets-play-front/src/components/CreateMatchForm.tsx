@@ -1,10 +1,13 @@
-import rightArrowBlue from "../assets/right-arrow-blue.svg";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
+
+import { GameProps } from "../types/type";
+
+import rightArrowBlue from "../assets/right-arrow-blue.svg";
 import AddVoiceChannel from "./AddVoiceChannel";
 import InviteParticipantInput from "./InviteParticipantInput";
 import ParticipantsList from "./ParticipantsList";
-import { GameProps } from "../types/type";
+import dayjs from "dayjs";
 import { http } from "../services/api";
 
 interface CreateMatchFormProps {
@@ -67,7 +70,7 @@ function CreateMatchForm({ toggleCreateMatchForm }: CreateMatchFormProps) {
     const formData = {
       gameTitle: selectedGame,
       gameImage: selectedImage,
-      date: selectedDate,
+      date: dayjs(selectedDate).format("YYYY-MM-DD"),
       time: selectedTime,
       description: description,
       voiceChannel: voiceChannel,

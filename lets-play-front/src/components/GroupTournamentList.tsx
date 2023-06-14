@@ -1,23 +1,23 @@
-import { Tournaments } from '../utils/Tournaments';
+import { useState, useEffect } from 'react';
+import Confirmation from './Confirmation';
+import Overlay from './Overlay';
+
+import { TournamentProps } from '../types/type';
 
 import trophyIcon2 from "../assets/trophy_gold.svg";
 import tournamentIcon from '../assets/match.png';
 import participantsIcon from '../assets/participants.svg';
 import wasteBinIcon from '../assets/waste-bin.svg';
-import { useState, useEffect } from 'react';
-import { TournamentProps } from '../types/type';
-import Confirmation from './Confirmation';
-import Overlay from './Overlay';
 
 interface TournamentsListProps {
-  toggleIsTournamentSelected: () => void;
-  setSelectedTournamentID: React.Dispatch<React.SetStateAction<string>>;
+  tournaments: TournamentProps[];
+  handleSelectTournament: (tournamentId: string) => void;
 }
 
-function TournamentsList({ toggleIsTournamentSelected, setSelectedTournamentID }: TournamentsListProps) {
+function GroupTournamentsList({ tournaments, handleSelectTournament }: TournamentsListProps) {
+  const [isConfirmationWindowActive, setIsConfirmationWindowActive] = useState(false);
   const [TournamentsList, setTournamentsList] = useState<TournamentProps[]>();
   const [isLoading, setIsLoading] = useState(true);
-  const [isConfirmationWindowActive, setIsConfirmationWindowActive] = useState(false);
   const [tournamentIDToDelete, setTournamentIDToDelete] = useState('');
 
   function toggleConfirmationWindow(){
@@ -29,25 +29,20 @@ function TournamentsList({ toggleIsTournamentSelected, setSelectedTournamentID }
     toggleConfirmationWindow();
   }
 
-  function handleSelectedTournament(tournamentID: string){
-    toggleIsTournamentSelected();
-    setSelectedTournamentID(tournamentID);
-  }
-
   function handleRemoveTournament(tournamentID: string){
     const newTournamentsList = TournamentsList?.filter(tournament => tournament.id !== tournamentID);
     setTournamentsList(newTournamentsList);
-    Tournaments.splice(Tournaments.findIndex(tournament => tournament.id === tournamentID), 1);
+    tournaments.splice(tournaments.findIndex(tournament => tournament.id === tournamentID), 1);
   }
 
   useEffect(() => {
-    setTournamentsList(Tournaments);
+    setTournamentsList(tournaments);
     setIsLoading(false);
-  }, [Tournaments]);
+  }, [tournaments]);
 
   useEffect(() => {
     setIsLoading(true);
-    setTournamentsList(Tournaments);
+    setTournamentsList(tournaments);
     setIsLoading(false);
   }, [TournamentsList]);
   
@@ -58,8 +53,8 @@ function TournamentsList({ toggleIsTournamentSelected, setSelectedTournamentID }
         <h1>Loading...</h1>
       ) : (
         TournamentsList?.map((tournament, index) => (
-          <div className="flex gap-2">
-            <button key={index} className="w-[40rem] h-16 bg-panel-item rounded-lg flex items-center justify-between p-4 text-xl text-white font-outline-1 gap-2 hover:drop-shadow-secondary" onClick={() => handleSelectedTournament(tournament.id)}>
+          <div key={tournament.id} className="flex gap-2">
+            <button key={index} className="w-[40rem] h-16 bg-panel-item rounded-lg flex items-center justify-between p-4 text-xl text-white font-outline-1 gap-2 hover:drop-shadow-secondary" onClick={() => handleSelectTournament(tournament.id)}>
               <img className="w-10 h-10" src={trophyIcon2} alt="Icone de um Troféu" />
               <span>{tournament.title}</span>
               <div className="flex items-center gap-4">
@@ -91,4 +86,4 @@ function TournamentsList({ toggleIsTournamentSelected, setSelectedTournamentID }
   )
 }
 
-export default TournamentsList
+export default GroupTournamentsList

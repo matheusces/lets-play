@@ -2,6 +2,9 @@ import { FormEvent, useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 
 import Overlay from './Overlay';
+// import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import toast from 'react-hot-toast';
 
 import { Leagues } from '../utils/Leagues';
 import { GameProps, ParticipantProps } from '../types/type';
@@ -157,14 +160,17 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
       leagueSize,
       teams: groupParticipantsByTeam(participants),
     }
-
     console.log(formData);
 
-    Leagues.push(formData);
+
+    const formDataValidator = title.length > 0 && selectedGame.length > 0;
+
+    formDataValidator? Leagues.push(formData) : toast.error('Preencha todos os campos.');
 
     clearForm();
     toggleCreateLeagueForm();
   }
+
 
   function handleDone() {
     handleToggleParticipantsManager();
@@ -247,7 +253,7 @@ function CreateLeagueForm({ toggleCreateLeagueForm }: createTournamentFormProps)
           </div>
 
           <div className='w-fit flex flex-col gap-2 px-4'>
-            <button className='w-36 h-14 bg-primary p-2 text-base text-white rounded-lg hover:drop-shadow-secondary' type='submit'>Confirmar</button>
+            <button className='w-36 h-14 bg-primary p-2 text-base text-white rounded-lg hover:drop-shadow-secondary' type='submit' >Confirmar</button>
             <button className='w-36 h-14 bg-white p-2 text-base text-primary rounded-lg hover:drop-shadow-secondary' type='button' onClick={handleToggleCreateLeagueForm}>Cancelar</button>
           </div>
         </div>

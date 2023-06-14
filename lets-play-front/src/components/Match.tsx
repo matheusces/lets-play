@@ -66,6 +66,7 @@ function Match({ match, handleToggleMatchList }: MatchComponentProps) {
       ) : (
         <div className="w-full h-full flex flex-col items-center px-8">
           <div className="w-full flex items-center">
+            <button className="w-30 h-10 text-white bg-primary rounded-md my-2 p-2 hover:drop-shadow-primary" onClick={handleToggleMatchList}>Voltar</button>
             <div className="w-full flex gap-3 justify-center">
               <h1 className="text-white font-outline-1 text-3xl hover:drop-shadow-primary">
                 {matchData.game}
@@ -131,7 +132,6 @@ function Match({ match, handleToggleMatchList }: MatchComponentProps) {
 
           </div>
 
-          <button className="w-30 h-14 text-white bg-primary rounded-md my-2 p-2" onClick={handleToggleMatchList}>Voltar</button>
         </div>
       )}
     </>
