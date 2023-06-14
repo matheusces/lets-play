@@ -4,6 +4,6 @@ export interface MatchDto {
     voiceChannel: string,
     participants: string[],
     description?: string;
-    date: Date;
+    date: string;
     time: string;
 }

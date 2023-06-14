@@ -51,6 +51,7 @@ export interface MatchProps {
   participants: string[];
   voiceChannel: string;
   description: string;
+  gameImage?: string;
 }
 
 export interface GroupProps {

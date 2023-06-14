@@ -18,12 +18,24 @@ model User {
   TeamParticipants  TeamParticipants[]
 }
 
+model League {
+  id         String @id
+  game       String
+  game_img   String
+  title      String
+  leagueSize Int
+  Teams      Team[]
+}
+
 model Team {
   id               String             @id
   win              Int
   draw             Int
   loses            Int
   points           Int
+  leagueId         String?
+  title            String
+  League           League?            @relation(fields: [leagueId], references: [id])
   TeamParticipants TeamParticipants[]
 }
 

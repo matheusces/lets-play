@@ -43,6 +43,10 @@ class UserService {
             };
         }
 
+        console.log(user);
+        console.log(password, email);
+
+
         if (bcrypt.compareSync(password, user.password)) {
             return user;
         }

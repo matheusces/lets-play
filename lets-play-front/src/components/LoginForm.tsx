@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { http } from "../services/api";
+import { toast } from "react-hot-toast";
+import UserContext from "../contexts/UserContext";
 
 interface LoginFormProps {
   toggleLoginForm: (value: boolean) => void;
@@ -11,6 +13,7 @@ function LoginForm({ toggleLoginForm }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { setIsUserLogged, setUserNickname } = useContext(UserContext);
 
   function toggleRegisterForm() {
     setIsRegisterForm(!isRegisterForm);
@@ -38,7 +41,7 @@ function LoginForm({ toggleLoginForm }: LoginFormProps) {
     setConfirmPassword(e.target.value);
   }
 
-  function handleRegisterSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleRegisterSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const registerData = {
@@ -48,9 +51,15 @@ function LoginForm({ toggleLoginForm }: LoginFormProps) {
       confirmPassword,
     };
 
-    http.post("users", registerData);
+    const response = await http.post("users", registerData);
     console.log("Register Successfull submitted");
     console.log(registerData);
+
+    if (response.data && response.data.type === "error") {
+      toast.error("Conta já existente.");
+    } else {
+      toast.success("Conta criada com sucesso!");
+    }
     toggleRegisterForm();
   }
 
@@ -64,6 +73,15 @@ function LoginForm({ toggleLoginForm }: LoginFormProps) {
     http.post("users/login", loginData).then((response) => {
       console.log("Login Successfull submitted");
       console.log(response);
+
+      if (response.data && response.data.type === "error") {
+        toast.error("Email ou senha errados.");
+      } else {
+        setUserNickname(response.data.nickname);
+        setIsUserLogged(true);
+        toast.success("Login realizado com sucesso!");
+      }
+
       handleToggleLoginForm();
     });
   }

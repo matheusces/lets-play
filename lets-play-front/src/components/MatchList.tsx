@@ -8,25 +8,29 @@ import { MatchProps } from "../types/type";
 
 import wasteBinIcon from "../assets/waste-bin.svg";
 import users from "../assets/users.svg";
+import { http } from "../services/api";
 
 interface MatchListProps {
   handleToggleMatchSelected: (match: MatchProps) => void;
+  day: string;
 }
 
-function MatchList({ handleToggleMatchSelected }: MatchListProps) {
+function MatchList({ handleToggleMatchSelected, day }: MatchListProps) {
   const [isConfirmationWindowActive, setIsConfirmationWindowActive] =
     useState(false);
-  const [matches, setMatches] = useState<MatchProps[]>();
+  const [matches, setMatches] = useState<MatchProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [matchIDToDelete, setMatchIDToDelete] = useState("");
 
-  function handleRemoveMatch(matchID: string) {
+  async function handleRemoveMatch(matchID: string) {
     const newMatchesList = matches?.filter((match) => match.id !== matchID);
     setMatches(newMatchesList);
     matchs.splice(
       matchs.findIndex((match) => match.id === matchID),
       1
     );
+
+    await http.delete(`/matches/${matchID}`);
   }
 
   function handleDelete(id: string) {
@@ -38,33 +42,59 @@ function MatchList({ handleToggleMatchSelected }: MatchListProps) {
     setIsConfirmationWindowActive(!isConfirmationWindowActive);
   }
 
-  useEffect(() => {
-    setMatches(matchs);
-    setIsLoading(false);
-  }, [matchs]);
+  // useEffect(() => {
+  //   setMatches(matchs);
+  //   setIsLoading(false);
+  // }, [matchs]);
 
   useEffect(() => {
+    const getMatches = async () => {
+      const response = await http.get(`matches/${day}`);
+
+      if (response && response.data) {
+        const matchesData: MatchProps[] = response.data.map(
+          (matchData: any) => {
+            return {
+              ...matchData,
+              game: matchData.gameTitle,
+            };
+          }
+        );
+        console.log(response.data);
+
+        setMatches(matchesData);
+        // setMatches(matchs);
+      } else {
+        setMatches([]);
+      }
+    };
+
     setIsLoading(true);
-    setMatches(matchs);
+    getMatches();
     setIsLoading(false);
-  }, [matches]);
+  }, []);
 
   return (
     <div className="flex flex-col items-center gap-4 p-2 hide-scroll-bar overflow-scroll">
       {isLoading ? (
         <h1>Loading...</h1>
       ) : (
-        matchs.map((match, index) => (
-          <div className="flex gap-2">
+        (matches || []).map((match, index) => (
+          <div className="flex gap-2" key={index}>
             <button
-              key={index}
               className="w-[40rem] h-24 bg-panel-item rounded-lg flex items-center justify-between p-4 text-2xl text-white font-outline-1 gap-2 hover:drop-shadow-primary"
               onClick={() => handleToggleMatchSelected(match)}
             >
               <div className="flex flex-col">
-                <span className="text-3xl">{match.game}</span>
+                <span className="text-3xl">
+                  {match.game.length > 22
+                    ? match.game.substring(0, 22) + "..."
+                    : match.game}
+                </span>
                 <span className="w-72 text-primary overflow-ellipsis font-outline-0">
-                  {match.description}
+                  {match.description.length > 22
+                    ? match.description.substring(0, 22) + "..."
+                    : match.description}
                 </span>
               </div>
 
