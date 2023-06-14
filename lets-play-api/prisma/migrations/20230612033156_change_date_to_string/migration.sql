@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Match" ALTER COLUMN "date" SET DATA TYPE TEXT;

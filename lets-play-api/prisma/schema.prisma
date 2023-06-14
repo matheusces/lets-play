@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,11 +10,21 @@ datasource db {
 model User {
   id                String              @id
   nickname          String
-  email             String
+  email             String              @unique
   password          String
+  photo             String?
   GroupParticipants GroupParticipants[]
   MatchParticipants MatchParticipants[]
   TeamParticipants  TeamParticipants[]
+}
+
+model League {
+  id         String @id
+  game       String
+  game_img   String
+  title      String
+  leagueSize Int
+  Teams      Team[]
 }
 
 model Team {
@@ -26,14 +33,20 @@ model Team {
   draw             Int
   loses            Int
   points           Int
+  leagueId         String?
+  title            String
+  League           League?            @relation(fields: [leagueId], references: [id])
   TeamParticipants TeamParticipants[]
 }
 
 model Match {
   id                String              @id
   description       String?
-  date              DateTime
+  date              String
   time              String
+  gameImage         String
+  gameTitle         String
+  voiceChannel      String
   MatchParticipants MatchParticipants[]
 }
 
@@ -48,8 +61,8 @@ model TeamParticipants {
   id             String @id
   team_id        String
   participant_id String
-  team           Team   @relation(fields: [team_id], references: [id])
   participant    User   @relation(fields: [participant_id], references: [id])
+  team           Team   @relation(fields: [team_id], references: [id])
 }
 
 model GroupParticipants {

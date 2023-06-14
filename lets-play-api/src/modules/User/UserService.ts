@@ -2,29 +2,60 @@ import { UserDto } from "./UserDto";
 import { PrismaClient } from '@prisma/client'
 import { randomUUID } from "crypto";
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+import { Response } from "express";
+dotenv.config();
 
-export class UserService {
+class UserService {
     private prisma = new PrismaClient();
 
     async create(userData: UserDto) {
-        if (!userData.password) {
+        try {
+            if (!userData.password) {
+                return {
+                    type: 'error',
+                    message: "password is required",
+                };
+            }
+
+            const hash = await bcrypt.hash(userData.password, 10);
+            const id = randomUUID();
+
+            return await this.prisma.user.create({
+                data: {
+                    id,
+                    email: userData.email,
+                    nickname: userData.nickname,
+                    password: hash,
+                },
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async login(email: string, password: string) {
+        const user = await this.prisma.user.findFirst({ where: { email } });
+        if (!user) {
             return {
-                type: 'error',
-                message: "password is required",
+                type: "error",
+                message: "Wrong email or password",
             };
         }
 
-        const hash = await bcrypt.hash(userData.password, process.env.SALTS || 10);
-        const id = randomUUID();
+        console.log(user);
+        console.log(password, email);
 
-        return await this.prisma.user.create({
-            data: {
-                id,
-                email: userData.email,
-                nickname: userData.nickname,
-                password: hash,
-            },
-        });
+
+        if (bcrypt.compareSync(password, user.password)) {
+            return user;
+        }
+
+
+        return {
+            type: "error",
+            message: "Wrong email or password",
+        };
     }
 
     async get(id: string) {
@@ -52,3 +83,5 @@ export class UserService {
     }
 
 }
+
+export const userService = new UserService();
