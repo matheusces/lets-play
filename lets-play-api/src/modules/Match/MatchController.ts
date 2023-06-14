@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
-import { MatchService } from "./MatchService";
+import { matchService } from "./MatchService";
 import { MatchDto } from "./MatchDto";
 
 class MatchController {
-    private matchService = new MatchService();
 
     async create(request: Request, response: Response) {
-        const { date, description, time } = request.body as MatchDto;
+        const { date, description, time, gameImage, gameTitle, participants, voiceChannel } = request.body as MatchDto;
 
-        const resp = await this.matchService.create({
-            date, time, description
+        const resp = await matchService.create({
+            date, time, description, gameImage, gameTitle, participants, voiceChannel
         });
 
         return response.json(resp).status(201);
@@ -17,28 +16,30 @@ class MatchController {
 
     async get(request: Request, response: Response) {
         const { id } = request.params;
-        const resp = await this.matchService.get(id);
+        const resp = await matchService.get(id);
 
         return response.json(resp).status(200);
     }
 
     async getAll(request: Request, response: Response) {
-        const resp = await this.matchService.getAll();
+        const { date } = request.params;
+
+        const resp = await matchService.getAll(date);
 
         return response.json(resp).status(200);
     }
 
     async update(request: Request, response: Response) {
         const { id } = request.params;
-        const { date, time, description } = request.body as MatchDto;
-        const resp = await this.matchService.update(id, { date, time, description });
+        const { date, time, description, gameImage, gameTitle, participants, voiceChannel } = request.body as MatchDto;
+        const resp = await matchService.update(id, { date, time, description, gameImage, gameTitle, participants, voiceChannel });
 
         return response.json(resp).status(200);
     }
 
     async delete(request: Request, response: Response) {
         const { id } = request.params;
-        const resp = await this.matchService.delete(id);
+        const resp = await matchService.delete(id);
 
         return response.json(resp).status(200);
     }
