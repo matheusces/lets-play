@@ -4,7 +4,7 @@ Plataforma web para convidar amigos para uma jogatina. Com ela você pode criar 
 
 ## Stacks
 
-- ReeactJS
+- ReactJS
 - NodeJS
 - Tailwind
 - PostgreSQL
